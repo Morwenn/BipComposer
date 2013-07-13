@@ -1,0 +1,62 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-07-12 13:11+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: D:\Morwenn\Projets\PyBipComposer\bipcomposer\gui\generated\MainWindow_ui.py:73
+msgid "MainWindow"
+msgstr ""
+
+#: D:\Morwenn\Projets\PyBipComposer\bipcomposer\gui\generated\MainWindow_ui.py:74
+msgid "Tab 1"
+msgstr ""
+
+#: D:\Morwenn\Projets\PyBipComposer\bipcomposer\gui\generated\MainWindow_ui.py:75
+msgid "Tab 2"
+msgstr ""
+
+#: D:\Morwenn\Projets\PyBipComposer\bipcomposer\gui\generated\MainWindow_ui.py:76
+msgid "File"
+msgstr "Fichier"
+
+#: D:\Morwenn\Projets\PyBipComposer\bipcomposer\gui\generated\MainWindow_ui.py:77
+msgid "Edit"
+msgstr "Edition"
+
+#: D:\Morwenn\Projets\PyBipComposer\bipcomposer\gui\generated\MainWindow_ui.py:78
+msgid "New"
+msgstr "Nouveau"
+
+#: D:\Morwenn\Projets\PyBipComposer\bipcomposer\gui\generated\MainWindow_ui.py:79
+msgid "Open"
+msgstr "Ouvrir"
+
+#: D:\Morwenn\Projets\PyBipComposer\bipcomposer\gui\generated\MainWindow_ui.py:80
+msgid "Save"
+msgstr "Enregistrer"
+
+#: D:\Morwenn\Projets\PyBipComposer\bipcomposer\gui\generated\MainWindow_ui.py:81
+msgid "Save as"
+msgstr "Enregistrer sous"
+
+#: D:\Morwenn\Projets\PyBipComposer\bipcomposer\gui\generated\MainWindow_ui.py:82
+msgid "Undo"
+msgstr "Annuler"
+
+#: D:\Morwenn\Projets\PyBipComposer\bipcomposer\gui\generated\MainWindow_ui.py:83
+msgid "Redo"
+msgstr "Rétablir"
