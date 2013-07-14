@@ -23,7 +23,19 @@
 import os
 import sys
 from cx_Freeze import setup, Executable
+from gettext import find
 
+
+LOCALE_DIR = os.path.join('.', 'bipcomposer', 'locale')
+
+# Find available translations by looking
+# at the dir names in LOCALE_DIR
+languages = []
+for path in os.listdir(LOCALE_DIR):
+    if not path.startswith('_'): # Ignore __pycache__
+        if os.path.isdir(os.path.join(LOCALE_DIR, path)):
+            languages.append(path)
+languages = set(languages) # Avoid duplicates
 
 # GUI applications require a different base on Windows
 #(the default is for a console application).
@@ -34,6 +46,7 @@ if sys.platform == "win32":
 options = dict(
     compressed = True,
     includes = ["bipcomposer"],
+    include_files = find('bipcomposer', LOCALE_DIR, languages, all=True),
     path = sys.path + ["modules"]
 )
 
