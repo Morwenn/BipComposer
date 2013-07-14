@@ -89,9 +89,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             if ext.lower() not in ('.bcf',):
                 raise IOError("invalid file extension: %s" % ext)
 
-        name = os.path.split(name)[1]
-        score = self.newScore(name)
-        score.load(fname)
+            name = os.path.split(name)[1]
+            score = self.newScore(name)
+            score.load(fname)
 
     def saveScore(self, fname=None):
         """
@@ -103,15 +103,33 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         :param fname: File where to save the score.
         :type fname: str
         """
-        raise NotImplementedError
+        if fname:
+            name, ext = os.path.splitext(fname)
+            self.score().save(name + '.bcf')
+        else:
+            path = self.score().path
+            if path:
+                self.score().save(path)
+            else:
+                self.saveScoreAs()
 
     def saveScoreAs(self):
         """
         Asks for the user to provide a file name and
-        saves the score to this file, creating if if
+        saves the score to this file, creating it if
         it does not already exist.
         """
-        raise NotImplementedError
+        path = self.score().path
+        if path:
+            dname = os.path.dirname(path)
+        else:
+            dname = os.path.expanduser('~')
+
+        fname = QFileDialog.getSaveFileName(self,
+            _("Save File"), dname, _("BipComposer Files (*.bcf)"))[0]
+        if fname:
+            name, ext = os.path.splitext(fname)
+            self.score().save(name + '.bcf')
 
     def score(self):
         """
