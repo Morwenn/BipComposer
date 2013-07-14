@@ -41,7 +41,7 @@
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
-     <string>File</string>
+     <string>&amp;File</string>
     </property>
     <addaction name="actionNew"/>
     <addaction name="actionOpen"/>
@@ -51,7 +51,7 @@
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
-     <string>Edit</string>
+     <string>&amp;Edit</string>
     </property>
     <addaction name="actionCancel"/>
     <addaction name="actionRestore"/>
@@ -87,7 +87,7 @@
      <normaloff>:/icons/new.png</normaloff>:/icons/new.png</iconset>
    </property>
    <property name="text">
-    <string>New</string>
+    <string>&amp;New</string>
    </property>
    <property name="shortcut">
     <string notr="true">Ctrl+N</string>
@@ -99,7 +99,7 @@
      <normaloff>:/icons/open.png</normaloff>:/icons/open.png</iconset>
    </property>
    <property name="text">
-    <string>Open</string>
+    <string>&amp;Open...</string>
    </property>
    <property name="shortcut">
     <string notr="true">Ctrl+O</string>
@@ -111,7 +111,7 @@
      <normaloff>:/icons/save.png</normaloff>:/icons/save.png</iconset>
    </property>
    <property name="text">
-    <string>Save</string>
+    <string>&amp;Save</string>
    </property>
    <property name="shortcut">
     <string notr="true">Ctrl+S</string>
@@ -123,7 +123,7 @@
      <normaloff>:/icons/save-as.png</normaloff>:/icons/save-as.png</iconset>
    </property>
    <property name="text">
-    <string>Save as</string>
+    <string>Save &amp;as...</string>
    </property>
    <property name="shortcut">
     <string notr="true">Ctrl+Shift+S</string>
@@ -131,7 +131,7 @@
   </action>
   <action name="actionCancel">
    <property name="text">
-    <string>Undo</string>
+    <string>&amp;Undo</string>
    </property>
    <property name="shortcut">
     <string notr="true">Ctrl+Z</string>
@@ -139,7 +139,7 @@
   </action>
   <action name="actionRestore">
    <property name="text">
-    <string>Redo</string>
+    <string>&amp;Redo</string>
    </property>
    <property name="shortcut">
     <string notr="true">Ctrl+Shift+Z</string>
