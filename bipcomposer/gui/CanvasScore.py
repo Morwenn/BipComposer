@@ -120,11 +120,23 @@ class CanvasScore(QWidget):
         :param fname: .bcf file to load.
         :type fname: str
         """
+        # FIXME
+        if fname:
+            self.path = fname
+        raise NotImplementedError
+
+    def save(self, fname=None):
+        """
+        Saves the score to the given .bcf file.
+
+        :param fname: .bcf file where to save the score.
+        :type fname: str
+        """
         raise NotImplementedError
 
     @property
     def path(self):
-        return self._path()
+        return self._path
     @path.setter
     def path(self, value):
         self._path = value
@@ -132,7 +144,7 @@ class CanvasScore(QWidget):
 
     @property
     def name(self):
-        return self._name()
+        return self._name
     @name.setter
     def name(self, value):
         self._name = value
