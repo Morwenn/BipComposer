@@ -29,6 +29,7 @@ from PySide.QtGui import (
 
 from .CanvasScore import CanvasScore
 from .generated import Ui_MainWindow
+from bipcomposer.utils.path import addext
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -41,6 +42,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.actionOpen.triggered.connect(self.openScore)
         self.actionSave.triggered.connect(self.saveScore)
         self.actionSaveAs.triggered.connect(self.saveScoreAs)
+
+        self.tabs.tabCloseRequested.connect(self.closeScore)
 
         # Add a default empty score
         self.newScore()
@@ -123,8 +126,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         :type fname: str
         """
         if fname:
-            name, ext = os.path.splitext(fname)
-            self.score().save(name + '.bcf')
+            fname = addext(fname, '.bcf')
+            self.score().save(fname)
         else:
             path = self.score().path
             if path:
@@ -147,8 +150,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         fname = QFileDialog.getSaveFileName(self,
             _("Save File"), dname, _("BipComposer Files (*.bcf)"))[0]
         if fname:
-            name, ext = os.path.splitext(fname)
-            self.score().save(name + '.bcf')
+            fname = addext(fname, '.bcf')
+            self.score().save(fname)
+
+    def closeScore(self, index):
+        """
+        Close the given score. Create a new score
+        if there are no scores left.
+
+        :param index: Score to close (tab index).
+        :type index: int
+        """
+        self.tabs.removeTab(index)
+        if not self.tabs.count():
+            self.newScore()
 
     def score(self):
         """
