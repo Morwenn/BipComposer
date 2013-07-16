@@ -27,8 +27,8 @@ from PySide.QtGui import (
     QMainWindow
 )
 
-from .CanvasScore import CanvasScore
 from .generated import Ui_MainWindow
+from bipcomposer.score import Score
 from bipcomposer.utils.path import addext
 
 
@@ -65,7 +65,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         :return: Newly created score.
         :rtype: CanvasScore
         """
-        score = CanvasScore(self.tabs)
+        score = Score()
         if not name:
             # Find the latest "new n"
             new_n = 0
@@ -81,10 +81,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             # Create the tab "new n+1"
             new_n += 1
             name = "new %d" % new_n
-        self.tabs.addTab(score, name)
+        self.tabs.addTab(score.canvas, name)
 
         score.nameChanged.connect(lambda text:
-            self.tabs.setTabText(self.tabs.indexOf(score), name))
+            self.tabs.setTabText(self.tabs.indexOf(score.canvas), name))
 
         # Set the score properties
         score.name = name
@@ -172,4 +172,4 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         :return: Current score.
         :rtype: CanvasScore
         """
-        return self.tabs.currentWidget()
+        return self.tabs.currentWidget().score

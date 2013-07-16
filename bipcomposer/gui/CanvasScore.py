@@ -38,22 +38,16 @@ from PySide.QtGui import (
 
 class CanvasScore(QWidget):
     """
-    A score is a surface object where is drawn a BipComposer
-    score. It is the core part of BipComposer.
+    A CanvasScore is a surface object where are drawn all
+    the notes of a score.
+    score.
     """
 
-    _path = ""          # Score file (.bcf)
-    _name = ""          # Name of the score (generally generated from the path)
-    _modified = False   # Whether it the score has been modified
-
-    # Corresponding signals
-    pathChanged = Signal(str)
-    nameChanged = Signal(str)
-
-    def __init__(self, parent, position=None, size=None,
+    def __init__(self, score, parent=None, position=None, size=None,
                  frameTime=0, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
         self.initialized = False
+        self.score = score
 
         if not position:
             position = QPoint(0, 0)
@@ -130,43 +124,5 @@ class CanvasScore(QWidget):
 
     def paintEvent(self, event):
         self.clear(sf.Color.GREEN)
-
-    def load(self, fname=None):
-        """
-        Loads the given .bcf file if given.
-        Otherwise, loads the cached one.
-
-        :param fname: .bcf file to load.
-        :type fname: str
-        """
-        # FIXME
-        if fname:
-            self.path = fname
-        raise NotImplementedError
-
-    def save(self, fname=None):
-        """
-        Saves the score to the given .bcf file.
-
-        :param fname: .bcf file where to save the score.
-        :type fname: str
-        """
-        raise NotImplementedError
-
-    @property
-    def path(self):
-        return self._path
-    @path.setter
-    def path(self, value):
-        self._path = value
-        self.pathChanged.emit(value)
-
-    @property
-    def name(self):
-        return self._name
-    @name.setter
-    def name(self, value):
-        self._name = value
-        self.nameChanged.emit(value)
 
 
