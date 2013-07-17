@@ -53,7 +53,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.setCentralWidget(self.tabs)
 
-    def newScore(self, name=None):
+    def newScore(self, name=None, goto=True):
         """
         Creates a new score with the given name.
         If no name is provided, a research is
@@ -64,6 +64,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         :type name: str
         :return: Newly created score.
         :rtype: CanvasScore
+        :param goto: Whether to switch to the tab once openened.
+        :type goto: bool
         """
         score = Score()
         if not name:
@@ -81,7 +83,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             # Create the tab "new n+1"
             new_n += 1
             name = "new %d" % new_n
-        self.tabs.addTab(score.canvas, name)
+        index = self.tabs.addTab(score.canvas, name)
+
+        if goto:
+            # Go to the new tab
+            self.tabs.setCurrentIndex(index)
 
         score.nameChanged.connect(lambda text:
             self.tabs.setTabText(self.tabs.indexOf(score.canvas), name))
@@ -91,7 +97,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # Return the newly created score
         return score
 
-    def openScore(self, fname=None):
+    def openScore(self, fname=None, goto=True):
         """
         Opens the given score if given, otherwise
         asks for the user to provide a file name
@@ -99,6 +105,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         
         :param fname: File to open.
         :type fname: str
+        :param goto: Whether to switch to the tab once openened.
+        :type goto: bool
         """
         if not fname:
             dname = os.path.expanduser('~')
@@ -112,7 +120,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 raise IOError("invalid file extension: %s" % ext)
 
             name = os.path.split(name)[1]
-            score = self.newScore(name)
+            score = self.newScore(name, goto=goto)
             score.load(fname)
 
     def saveScore(self, fname=None):
