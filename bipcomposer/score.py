@@ -46,6 +46,8 @@ class Score(QObject):
     pathChanged = Signal(str)
     nameChanged = Signal(str)    
 
+    length = 64
+    tempo = 120
     notes = []
 
     def __init__(self, *args, **kwargs):
@@ -60,10 +62,13 @@ class Score(QObject):
         :param fname: .bcf file to load.
         :type fname: str
         """
-        # FIXME
         if fname:
             self.path = fname
-        raise NotImplementedError
+
+        with open(fname, 'r') as f:
+            root = ET.fromstring(f.read())
+            self = Score.fromXml(root)
+            self.path = fname
 
     def save(self, fname=None):
         """
@@ -72,7 +77,46 @@ class Score(QObject):
         :param fname: .bcf file where to save the score.
         :type fname: str
         """
-        raise NotImplementedError
+        root = self.xml()
+        with open(fname, 'w') as f:
+            f.write(ET.tostring(root, encoding="unicode"))
+
+    def xml(self):
+        """
+        Creates an xml element an returns it.
+
+        :return: New xml element.
+        :rtype: xml.etree.ElementTree.Element
+        """
+        attrib = {
+            'length' : self.length,
+            'tempo' : self.tempo
+        }
+        attrib = { key : str(val) for key, val in attrib.items() }
+        score = ET.Element('score', attrib=attrib)
+        for note in self.notes:
+            score.append(note.xml())
+        return score
+
+    @staticmethod
+    def fromXml(elem):
+        """
+        Creates a new score from a corrresponding
+        xml element.
+
+        :param elem: xml element discribing the score.
+        :type elem: xml.etree.ElementTree.Element
+        """
+        from ast import literal_eval as lev
+        length = lev(elem.attrib['length'])
+        tempo = lev(elem.attrib['tempo'])
+        score = Score()
+        score.length = length
+        score.tempo = tempo
+        for subelem in elem:
+            note = Note.fromXml(subelem)
+            score.notes.append(note)
+        return score
 
     @property
     def path(self):

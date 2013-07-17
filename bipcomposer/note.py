@@ -20,12 +20,63 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 # 02110-1301 USA
 
+import xml.etree.ElementTree as ET
+
+
 class Note:
     """
     Simple note.
     """
-    def __init__(self, x, y, length, type="basic"):
+    def __init__(self, x, y, length, type='basic'):
         self.x = x
         self.y = y
         self.length = length
         self.type = type
+
+    def xml(self):
+        """
+        Creates an xml element an returns it.
+
+        :return: New xml element.
+        :rtype: xml.etree.ElementTree.Element
+        """
+        attrib = {
+            'x' : self.x,
+            'y' : self.y,
+            'length' : self.length,
+            'type' : self.type
+        }
+        attrib = { key : str(val) for key, val in attrib.items() }
+        return ET.Element('note', attrib=attrib)
+
+    @staticmethod
+    def fromXml(elem):
+        """
+        Creates a new note from a corrresponding
+        xml element.
+
+        :param elem: xml element discribing the note.
+        :type elem: xml.etree.ElementTree.Element
+        """
+        from ast import literal_eval as lev
+        x = lev(elem.attrib['x'])
+        y = lev(elem.attrib['y'])
+        length = lev(elem.attrib['length'])
+        type = elem.attrib['type']
+        return Note(x, y, length, type)
+
+
+if __name__ == '__main__':
+    a = Note(2, 2, 1, 'basic')
+    b = Note(1, 1, 2, 'basic')
+    c = Note(2, 2, 1, 'wave')
+    d = Note(5, 8, 3, 'basic')
+    e = Note(4, 2, 9, 'random')
+    for note in (a, b, c, d, e):
+        tmp = note.xml()
+        ET.dump(tmp)
+        note = Note.fromXml(tmp)
+
+
+
+
