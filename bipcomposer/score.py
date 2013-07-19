@@ -54,6 +54,15 @@ class Score(QObject):
         super().__init__(*args, **kwargs)
         self.canvas = CanvasScore(self)
 
+    def addNote(self, note):
+        """
+        Add a new note to the score.
+
+        :param note: Note to add to the score.
+        :type note: bipcomposer.note.Note
+        """
+        self.notes.append(note)
+
     def load(self, fname=None):
         """
         Loads the given .bcf file if given.
