@@ -26,6 +26,7 @@ import platform
 import sfml as sf
 from PySide.QtCore import (
     Qt,
+    QEvent,
     QPoint,
     QSize,
     QTimer,
@@ -35,6 +36,8 @@ from PySide.QtGui import (
     QWidget
 )
 
+from bipcomposer.note import Note
+
 
 class CanvasScore(QWidget):
     """
@@ -42,6 +45,10 @@ class CanvasScore(QWidget):
     the notes of a score.
     score.
     """
+    mousePressed = Signal(QEvent)
+    mouseReleased = Signal(QEvent)
+    mouseDoubleClicked = Signal(QEvent)
+    mouseMoved = Signal(QEvent)
 
     def __init__(self, score, parent=None, position=None, size=None,
                  frameTime=0, *args, **kwargs):
@@ -124,5 +131,31 @@ class CanvasScore(QWidget):
 
     def paintEvent(self, event):
         self.clear(sf.Color.GREEN)
+
+    def mousePressEvent(self, event):
+        """
+        When the mouse is pressed, several things can
+        occur: create a note, delete a note, open a
+        contextual menu, select note, etc...
+        """
+        if event.button() == Qt.LeftButton:
+            x, y = event.x(), event.y()
+            x = round(x / 16) * 16
+            y = round(x / 16) * 16
+            note = Note(x, y, 1)
+            self.score.addNote(note)
+
+        self.mousePressed.emit(event)
+
+    def mouseReleaseEvent(self, event):
+        self.mouseReleased.emit(event)
+
+    def mouseDoubleClickEvent(self, event):
+        self.mouseDoubleClicked.emit(event)
+
+    def mouseMoveEvent(self, event):
+        self.mouseMoved.emit(event)
+
+
 
 
