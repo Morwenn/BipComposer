@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'bipcomposer\gui\generated\MainWindow.ui'
 #
-# Created: Sun Jul 14 03:54:01 2013
+# Created: Sat Jul 20 01:19:54 2013
 #      by: pyside-uic 0.2.14 running on PySide 1.1.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -87,7 +87,7 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(_('MainWindow'))
+        MainWindow.setWindowTitle(_('BipComposer'))
         self.menuFile.setTitle(_('&File'))
         self.menuEdit.setTitle(_('&Edit'))
         self.toolBar.setWindowTitle(_('toolBar'))
