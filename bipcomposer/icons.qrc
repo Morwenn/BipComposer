@@ -1,5 +1,6 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource>
+<file>icons\BipComposerIcone.png</file>
 <file>icons\help.png</file>
 <file>icons\ico_ajouter_mesures.png</file>
 <file>icons\ico_cancel_strip2.png</file>
