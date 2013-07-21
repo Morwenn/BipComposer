@@ -168,7 +168,8 @@ def make_icons(icons_dir=None):
     icons = []
     for root, dirs, files in os.walk(icons_dir):
         for f in files:
-            if f.endswith('.png'):
+            name, ext = os.path.splitext(f)
+            if ext in ('.png', '.ico'):
                 fname = os.path.join('icons', f)
                 icons.append(fname)
 
