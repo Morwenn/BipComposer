@@ -57,14 +57,14 @@
     <property name="title">
      <string>&amp;Edit</string>
     </property>
-    <addaction name="actionCancel"/>
-    <addaction name="actionRestore"/>
+    <addaction name="actionUndo"/>
+    <addaction name="actionRedo"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <widget class="QToolBar" name="toolBar">
+  <widget class="QToolBar" name="toolbarFile">
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
@@ -84,6 +84,25 @@
    <addaction name="actionOpen"/>
    <addaction name="actionSave"/>
    <addaction name="actionSaveAs"/>
+  </widget>
+  <widget class="QToolBar" name="toolbarEdit">
+   <property name="windowTitle">
+    <string>toolBar_2</string>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>17</width>
+     <height>14</height>
+    </size>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionUndo"/>
+   <addaction name="actionRedo"/>
   </widget>
   <action name="actionNew">
    <property name="icon">
@@ -133,7 +152,11 @@
     <string notr="true">Ctrl+Shift+S</string>
    </property>
   </action>
-  <action name="actionCancel">
+  <action name="actionUndo">
+   <property name="icon">
+    <iconset resource="../../icons.qrc">
+     <normaloff>:/icons/undo.png</normaloff>:/icons/undo.png</iconset>
+   </property>
    <property name="text">
     <string>&amp;Undo</string>
    </property>
@@ -141,7 +164,11 @@
     <string notr="true">Ctrl+Z</string>
    </property>
   </action>
-  <action name="actionRestore">
+  <action name="actionRedo">
+   <property name="icon">
+    <iconset resource="../../icons.qrc">
+     <normaloff>:/icons/redo.png</normaloff>:/icons/redo.png</iconset>
+   </property>
    <property name="text">
     <string>&amp;Redo</string>
    </property>
