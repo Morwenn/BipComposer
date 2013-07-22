@@ -20,6 +20,7 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 # 02110-1301 USA
 
+import ast
 import xml.etree.ElementTree as ET
 
 from PySide.QtCore import (
@@ -76,8 +77,14 @@ class Score(QObject):
 
         with open(fname, 'r') as f:
             root = ET.fromstring(f.read())
-            self = Score.fromXml(root)
             self.path = fname
+            length = root.attrib['length']
+            tempo = root.attrib['tempo']
+            self.length = ast.literal_eval(length)
+            self.tempo = ast.literal_eval(tempo)
+            for elem in root:
+                note = Note.fromXml(elem)
+                self.notes.append(note)
 
     def save(self, fname=None):
         """
@@ -116,12 +123,11 @@ class Score(QObject):
         :param elem: xml element discribing the score.
         :type elem: xml.etree.ElementTree.Element
         """
-        from ast import literal_eval as lev
-        length = lev(elem.attrib['length'])
-        tempo = lev(elem.attrib['tempo'])
+        lenght = elem.attrib['length']
+        tempo = elem.attrib['tempo']
         score = Score()
-        score.length = length
-        score.tempo = tempo
+        score.length = ast.literal_eval(length)
+        score.tempo = ast.literal_eval(tempo)
         for subelem in elem:
             note = Note.fromXml(subelem)
             score.notes.append(note)
