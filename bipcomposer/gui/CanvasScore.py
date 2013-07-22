@@ -59,7 +59,7 @@ class CanvasScore(QWidget):
         if not position:
             position = QPoint(0, 0)
         if not size:
-            size = QSize(640, 480)
+            size = QSize(800, 600)
 
         w = size.width()
         h = size.height()
@@ -91,7 +91,15 @@ class CanvasScore(QWidget):
         pass
 
     def onUpdate(self):
-        pass
+        self.clear(sf.Color.BLACK)
+        try:
+            for note in self.score.notes:
+                self.window.draw(note.sprite)
+        except:
+            # Sometimes, score's __init__ seems to
+            # occur too late. This fix allows it to
+            # be late.
+            pass
 
     def sizeHint(self):
         return self.size()
@@ -99,7 +107,6 @@ class CanvasScore(QWidget):
     def paintEngine(self):
         # let the derived class do its specific stuff
         self.onUpdate()
-
         # display on screen
         self.display()
 
@@ -130,7 +137,7 @@ class CanvasScore(QWidget):
         self.initialized = True
 
     def paintEvent(self, event):
-        self.clear(sf.Color.GREEN)
+        pass
 
     def mousePressEvent(self, event):
         """
@@ -140,8 +147,8 @@ class CanvasScore(QWidget):
         """
         if event.button() == Qt.LeftButton:
             x, y = event.x(), event.y()
-            x = round(x / 16) * 16
-            y = round(x / 16) * 16
+            x = int(x / 12) * 12
+            y = int(y / 12) * 12
             note = Note(x, y, 1)
             self.score.addNote(note)
 
@@ -156,6 +163,10 @@ class CanvasScore(QWidget):
     def mouseMoveEvent(self, event):
         self.mouseMoved.emit(event)
 
+    def resizeEvent(self, event):
+        width, height = event.size().width(), event.size().height()
+        view = sf.View(sf.Rectangle((0, 0), (width, height)))
+        self.window.view = view
 
 
 
