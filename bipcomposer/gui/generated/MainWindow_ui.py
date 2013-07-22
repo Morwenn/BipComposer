@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'bipcomposer\gui\generated\MainWindow.ui'
 #
-# Created: Sun Jul 21 02:27:26 2013
+# Created: Sun Jul 21 03:06:24 2013
 #      by: pyside-uic 0.2.14 running on PySide 1.1.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,7 +12,7 @@ from PySide import QtCore, QtGui
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(800, 600)
+        MainWindow.resize(818, 678)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/BipComposerIcone.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
@@ -27,7 +27,7 @@ class Ui_MainWindow(object):
         self.verticalLayout.addWidget(self.tabs)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 18))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 818, 18))
         self.menubar.setObjectName("menubar")
         self.menuFile = QtGui.QMenu(self.menubar)
         self.menuFile.setObjectName("menuFile")
