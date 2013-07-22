@@ -32,7 +32,6 @@ class NoteType(dict):
     looks like and behaves.
     """
     _files = {}
-    _textures = {}
 
     def __init__(self, name, load_textures=True):
         """
@@ -64,7 +63,17 @@ class NoteType(dict):
             img = sf.Image.from_file(value)
             img.create_mask_from_color(sf.Color.MAGENTA)
             tex = sf.Texture.from_image(img)
-            self._textures[key] = tex
+            self[key] = tex
+
+
+types = {}
+for _type in (
+        'basic',
+        'gb',
+        'ramp',
+        'random',
+        'wave'):
+    types[_type] = NoteType(_type)
 
 
 class Note:
@@ -76,6 +85,13 @@ class Note:
         self.y = y
         self.length = length
         self.type = type
+
+    @property
+    def sprite(self):
+        tex = types[self.type][self.length]
+        spr = sf.Sprite(tex)
+        spr.position = (self.x, self.y)
+        return spr
 
     def xml(self):
         """
