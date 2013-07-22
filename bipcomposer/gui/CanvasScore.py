@@ -145,12 +145,19 @@ class CanvasScore(QWidget):
         occur: create a note, delete a note, open a
         contextual menu, select note, etc...
         """
+        x, y = event.x(), event.y()
+
         if event.button() == Qt.LeftButton:
-            x, y = event.x(), event.y()
-            x = int(x / 12) * 12
-            y = int(y / 12) * 12
-            note = Note(x, y, 1)
-            self.score.addNote(note)
+            # Check whether a note is selected
+            targets = self.objectsAt(x, y)
+
+            if targets:
+                pass
+            else:
+                x = int(x / 12) * 12
+                y = int(y / 12) * 12
+                note = Note(x, y, 1)
+                self.score.addNote(note)
 
         self.mousePressed.emit(event)
 
@@ -167,6 +174,20 @@ class CanvasScore(QWidget):
         width, height = event.size().width(), event.size().height()
         view = sf.View(sf.Rectangle((0, 0), (width, height)))
         self.window.view = view
+
+    def objectsAt(self, x, y):
+        """
+        Returns all the objects at a given position.
+
+        :return: Objects at the given position.
+        :rtype: list(object)
+        """
+        res = []
+        for note in self.score.notes:
+            rec = note.sprite.global_bounds
+            if rec.contains((x, y)):
+                res.append(note)
+        return res
 
 
 
