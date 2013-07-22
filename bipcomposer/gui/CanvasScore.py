@@ -146,11 +146,10 @@ class CanvasScore(QWidget):
         contextual menu, select note, etc...
         """
         x, y = event.x(), event.y()
+        # Check whether a note is selected
+        targets = self.objectsAt(x, y)
 
         if event.button() == Qt.LeftButton:
-            # Check whether a note is selected
-            targets = self.objectsAt(x, y)
-
             if targets:
                 pass
             else:
@@ -158,6 +157,10 @@ class CanvasScore(QWidget):
                 y = int(y / 12) * 12
                 note = Note(x, y, 1)
                 self.score.addNote(note)
+
+        elif event.button() == Qt.RightButton:
+            for note in targets:
+                self.score.removeNote(note)
 
         self.mousePressed.emit(event)
 
