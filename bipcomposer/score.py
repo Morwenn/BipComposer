@@ -64,6 +64,15 @@ class Score(QObject):
         """
         self.notes.append(note)
 
+    def removeNote(self, note):
+        """
+        Remove the given note from the score.
+
+        :param note: Note to remove from the score.
+        :type note: bipcomposer.note.Note
+        """
+        self.notes.remove(note)
+
     def load(self, fname=None):
         """
         Loads the given .bcf file if given.
