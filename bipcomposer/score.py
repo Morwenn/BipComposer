@@ -48,11 +48,11 @@ class Score(QObject):
 
     length = 64
     tempo = 120
-    notes = []
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.canvas = CanvasScore(self)
+        self.notes = []
 
     def addNote(self, note):
         """
