@@ -80,18 +80,46 @@ class Note:
     """
     Simple note.
     """
+    sprite = None
+    _x, _y = 0, 0
+
     def __init__(self, x, y, length, type='basic'):
         self.x = x
         self.y = y
         self.length = length
         self.type = type
+        self.updateSprite()
 
     @property
-    def sprite(self):
+    def x(self):
+        return self._x
+    @x.setter
+    def x(self, value):
+        self._x = value
+        if self.sprite:
+            self.sprite.position = (value, self._y)
+
+    @property
+    def y(self):
+        return self._y
+    @y.setter
+    def y(self, value):
+        self._y = value
+        if self.sprite:
+            self.sprite.position = (self._x, value)
+
+    def updateSprite(self):
+        """
+        Update the sprite with the length, type and
+        position information.
+
+        :return: Newly created sprite.
+        :rtype: sfml.Sprite
+        """
         tex = types[self.type][self.length]
-        spr = sf.Sprite(tex)
-        spr.position = (self.x, self.y)
-        return spr
+        self.sprite = sf.Sprite(tex)
+        self.sprite.position = (self.x, self.y)
+        return self.sprite
 
     def xml(self):
         """
