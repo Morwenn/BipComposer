@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'bipcomposer\gui\generated\MainWindow.ui'
 #
-# Created: Sun Jul 21 03:06:24 2013
+# Created: Thu Jul 25 00:42:37 2013
 #      by: pyside-uic 0.2.14 running on PySide 1.1.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -81,6 +81,18 @@ class Ui_MainWindow(object):
         self.actionRedo.setIcon(icon6)
         self.actionRedo.setShortcut("Ctrl+Shift+Z")
         self.actionRedo.setObjectName("actionRedo")
+        self.actionCut = QtGui.QAction(MainWindow)
+        self.actionCut.setShortcut("Ctrl+X")
+        self.actionCut.setObjectName("actionCut")
+        self.actionCopy = QtGui.QAction(MainWindow)
+        self.actionCopy.setShortcut("Ctrl+C")
+        self.actionCopy.setObjectName("actionCopy")
+        self.actionPaste = QtGui.QAction(MainWindow)
+        self.actionPaste.setShortcut("Ctrl+V")
+        self.actionPaste.setObjectName("actionPaste")
+        self.actionDelete = QtGui.QAction(MainWindow)
+        self.actionDelete.setShortcut("Del")
+        self.actionDelete.setObjectName("actionDelete")
         self.menuFile.addAction(self.actionNew)
         self.menuFile.addAction(self.actionOpen)
         self.menuFile.addSeparator()
@@ -88,6 +100,11 @@ class Ui_MainWindow(object):
         self.menuFile.addAction(self.actionSaveAs)
         self.menuEdit.addAction(self.actionUndo)
         self.menuEdit.addAction(self.actionRedo)
+        self.menuEdit.addSeparator()
+        self.menuEdit.addAction(self.actionCut)
+        self.menuEdit.addAction(self.actionCopy)
+        self.menuEdit.addAction(self.actionPaste)
+        self.menuEdit.addAction(self.actionDelete)
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuEdit.menuAction())
         self.toolbarFile.addAction(self.actionNew)
@@ -113,5 +130,9 @@ class Ui_MainWindow(object):
         self.actionSaveAs.setText(_('Save &as...'))
         self.actionUndo.setText(_('&Undo'))
         self.actionRedo.setText(_('&Redo'))
+        self.actionCut.setText(_('Cut'))
+        self.actionCopy.setText(_('Copy'))
+        self.actionPaste.setText(_('Paste'))
+        self.actionDelete.setText(_('Delete'))
 
 import bipcomposer.icons
