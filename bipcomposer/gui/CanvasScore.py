@@ -36,6 +36,7 @@ from PySide.QtGui import (
     QWidget
 )
 
+from bipcomposer.background import Background
 from bipcomposer.note import Note
 
 
@@ -77,21 +78,25 @@ class CanvasScore(QWidget):
         self.setAttribute(Qt.WA_NoSystemBackground)
 
         # set strong focus to enable keyboard events to be received
-        self.setFocusPolicy(Qt.StrongFocus);
+        self.setFocusPolicy(Qt.StrongFocus)
 
         # setup the widget geometry
-        self.move(position);
-        self.resize(size);
+        self.move(position)
+        self.resize(size)
 
         # setup the timer
         self.timer = QTimer()
         self.timer.setInterval(frameTime)
+
+        Background.load()
 
     def onInit(self):
         pass
 
     def onUpdate(self):
         self.clear(sf.Color.BLACK)
+        if Background.sprite:
+            self.window.draw(Background.sprite)
         try:
             for note in self.score.notes:
                 self.window.draw(note.sprite)
@@ -174,9 +179,12 @@ class CanvasScore(QWidget):
         self.mouseMoved.emit(event)
 
     def resizeEvent(self, event):
+        # Resize the room so that it fits the view
         width, height = event.size().width(), event.size().height()
         view = sf.View(sf.Rectangle((0, 0), (width, height)))
         self.window.view = view
+        # Extend the background box
+        Background.set_size((width, height))
 
     def objectsAt(self, x, y):
         """
