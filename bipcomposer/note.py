@@ -82,6 +82,7 @@ class Note:
     """
     sprite = None
     _x, _y = 0, 0
+    _selected = False
 
     def __init__(self, x, y, length, type='basic'):
         self.x = x
@@ -108,6 +109,17 @@ class Note:
         if self.sprite:
             self.sprite.position = (self._x, value)
 
+    @property
+    def selected(self):
+        return self._selected
+    @selected.setter
+    def selected(self, value):
+        self._selected = value
+        if value:
+            self.sprite.color = sf.Color.RED
+        else:
+            self.sprite.color = sf.Color.GREEN
+
     def updateSprite(self):
         """
         Update the sprite with the length, type and
@@ -119,6 +131,8 @@ class Note:
         tex = types[self.type][self.length]
         self.sprite = sf.Sprite(tex)
         self.sprite.position = (self.x, self.y)
+        # Enforce the coloration of the sprite
+        self.selected = self.selected
         return self.sprite
 
     def xml(self):
