@@ -43,6 +43,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.actionSave.triggered.connect(self.saveScore)
         self.actionSaveAs.triggered.connect(self.saveScoreAs)
 
+        self.actionDelete.triggered.connect(self.delete)
+        self.actionSelectAll.triggered.connect(self.selectAll)
+
         self.tabs.tabCloseRequested.connect(self.closeScore)
 
         # Add a default empty score
@@ -135,13 +138,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         """
         if fname:
             fname = addext(fname, '.bcf')
-            self.score().save(fname)
+            self.score.save(fname)
         else:
-            path = self.score().path
+            path = self.score.path
             if path:
-                self.score().save(path)
+                self.score.save(path)
             else:
-                self.saveScoreAs()
+                new_path = self.saveScoreAs()
+                self.score.path = new_path
 
     def saveScoreAs(self):
         """
@@ -149,7 +153,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         saves the score to this file, creating it if
         it does not already exist.
         """
-        path = self.score().path
+        path = self.score.path
         if path:
             dname = os.path.dirname(path)
         else:
@@ -159,7 +163,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             _("Save File"), dname, _("BipComposer Files (*.bcf)"))[0]
         if fname:
             fname = addext(fname, '.bcf')
-            self.score().save(fname)
+            self.score.save(fname)
+        return fname
 
     def closeScore(self, index):
         """
@@ -173,6 +178,27 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if not self.tabs.count():
             self.newScore()
 
+    def delete(self):
+        """
+        Delete all the seleted notes in the current
+        score.
+        """
+        to_remove = []
+        for note in self.score.notes:
+            if note.selected:
+                to_remove.append(note)
+        # To phases look-up in order to avoid problems
+        for note in to_remove:
+            self.score.removeNote(note)
+
+    def selectAll(self):
+        """
+        Select all the notes in the current score.
+        """
+        for note in self.score.notes:
+            note.selected = True
+
+    @property
     def score(self):
         """
         Returns the CanvasScore at the current index.
