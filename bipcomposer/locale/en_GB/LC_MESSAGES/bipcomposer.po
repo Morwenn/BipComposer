@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-14 03:54+0200\n"
+"POT-Creation-Date: 2013-07-27 20:15+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,55 +17,79 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: D:\Morwenn\Projets\PyBipComposer\bipcomposer\gui\MainWindow.py:103
+#: d:\Morwenn\Projets\PyBipComposer\bipcomposer\gui\MainWindow.py:122
 msgid "Open File"
 msgstr ""
 
-#: D:\Morwenn\Projets\PyBipComposer\bipcomposer\gui\MainWindow.py:103
-#: D:\Morwenn\Projets\PyBipComposer\bipcomposer\gui\MainWindow.py:148
+#: d:\Morwenn\Projets\PyBipComposer\bipcomposer\gui\MainWindow.py:122
+#: d:\Morwenn\Projets\PyBipComposer\bipcomposer\gui\MainWindow.py:171
 msgid "BipComposer Files (*.bcf)"
 msgstr ""
 
-#: D:\Morwenn\Projets\PyBipComposer\bipcomposer\gui\MainWindow.py:148
+#: d:\Morwenn\Projets\PyBipComposer\bipcomposer\gui\MainWindow.py:171
 msgid "Save File"
 msgstr ""
 
-#: D:\Morwenn\Projets\PyBipComposer\bipcomposer\gui\generated\MainWindow_ui.py:90
-msgid "MainWindow"
+#: d:\Morwenn\Projets\PyBipComposer\bipcomposer\gui\generated\MainWindow_ui.py:127
+msgid "BipComposer"
 msgstr ""
 
-#: D:\Morwenn\Projets\PyBipComposer\bipcomposer\gui\generated\MainWindow_ui.py:91
+#: d:\Morwenn\Projets\PyBipComposer\bipcomposer\gui\generated\MainWindow_ui.py:128
 msgid "&File"
 msgstr ""
 
-#: D:\Morwenn\Projets\PyBipComposer\bipcomposer\gui\generated\MainWindow_ui.py:92
+#: d:\Morwenn\Projets\PyBipComposer\bipcomposer\gui\generated\MainWindow_ui.py:129
 msgid "&Edit"
 msgstr ""
 
-#: D:\Morwenn\Projets\PyBipComposer\bipcomposer\gui\generated\MainWindow_ui.py:93
+#: d:\Morwenn\Projets\PyBipComposer\bipcomposer\gui\generated\MainWindow_ui.py:130
 msgid "toolBar"
 msgstr ""
 
-#: D:\Morwenn\Projets\PyBipComposer\bipcomposer\gui\generated\MainWindow_ui.py:94
+#: d:\Morwenn\Projets\PyBipComposer\bipcomposer\gui\generated\MainWindow_ui.py:131
+msgid "toolBar_2"
+msgstr ""
+
+#: d:\Morwenn\Projets\PyBipComposer\bipcomposer\gui\generated\MainWindow_ui.py:132
 msgid "&New"
 msgstr ""
 
-#: D:\Morwenn\Projets\PyBipComposer\bipcomposer\gui\generated\MainWindow_ui.py:95
+#: d:\Morwenn\Projets\PyBipComposer\bipcomposer\gui\generated\MainWindow_ui.py:133
 msgid "&Open..."
 msgstr ""
 
-#: D:\Morwenn\Projets\PyBipComposer\bipcomposer\gui\generated\MainWindow_ui.py:96
+#: d:\Morwenn\Projets\PyBipComposer\bipcomposer\gui\generated\MainWindow_ui.py:134
 msgid "&Save"
 msgstr ""
 
-#: D:\Morwenn\Projets\PyBipComposer\bipcomposer\gui\generated\MainWindow_ui.py:97
+#: d:\Morwenn\Projets\PyBipComposer\bipcomposer\gui\generated\MainWindow_ui.py:135
 msgid "Save &as..."
 msgstr ""
 
-#: D:\Morwenn\Projets\PyBipComposer\bipcomposer\gui\generated\MainWindow_ui.py:98
+#: d:\Morwenn\Projets\PyBipComposer\bipcomposer\gui\generated\MainWindow_ui.py:136
 msgid "&Undo"
 msgstr ""
 
-#: D:\Morwenn\Projets\PyBipComposer\bipcomposer\gui\generated\MainWindow_ui.py:99
+#: d:\Morwenn\Projets\PyBipComposer\bipcomposer\gui\generated\MainWindow_ui.py:137
 msgid "&Redo"
+msgstr ""
+
+#: d:\Morwenn\Projets\PyBipComposer\bipcomposer\gui\generated\MainWindow_ui.py:138
+msgid "&Cut"
+msgstr ""
+
+#: d:\Morwenn\Projets\PyBipComposer\bipcomposer\gui\generated\MainWindow_ui.py:139
+msgid "C&opy"
+msgstr ""
+
+#: d:\Morwenn\Projets\PyBipComposer\bipcomposer\gui\generated\MainWindow_ui.py:140
+msgid "&Paste"
+msgstr ""
+
+#: d:\Morwenn\Projets\PyBipComposer\bipcomposer\gui\generated\MainWindow_ui.py:141
+msgid "&Delete"
+msgstr ""
+
+#: d:\Morwenn\Projets\PyBipComposer\bipcomposer\gui\generated\MainWindow_ui.py:142
+msgid "&Select all"
 msgstr ""

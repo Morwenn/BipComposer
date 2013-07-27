@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'bipcomposer\gui\generated\MainWindow.ui'
 #
-# Created: Sat Jul 27 12:29:32 2013
+# Created: Sat Jul 27 20:15:53 2013
 #      by: pyside-uic 0.2.14 running on PySide 1.1.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -94,6 +94,7 @@ class Ui_MainWindow(object):
         self.actionDelete.setShortcut("Del")
         self.actionDelete.setObjectName("actionDelete")
         self.actionSelectAll = QtGui.QAction(MainWindow)
+        self.actionSelectAll.setShortcut("Ctrl+A")
         self.actionSelectAll.setObjectName("actionSelectAll")
         self.menuFile.addAction(self.actionNew)
         self.menuFile.addAction(self.actionOpen)
@@ -134,11 +135,10 @@ class Ui_MainWindow(object):
         self.actionSaveAs.setText(_('Save &as...'))
         self.actionUndo.setText(_('&Undo'))
         self.actionRedo.setText(_('&Redo'))
-        self.actionCut.setText(_('Cut'))
-        self.actionCopy.setText(_('Copy'))
-        self.actionPaste.setText(_('Paste'))
-        self.actionDelete.setText(_('Delete'))
+        self.actionCut.setText(_('&Cut'))
+        self.actionCopy.setText(_('C&opy'))
+        self.actionPaste.setText(_('&Paste'))
+        self.actionDelete.setText(_('&Delete'))
         self.actionSelectAll.setText(_('&Select all'))
-        self.actionSelectAll.setShortcut(_('Ctrl+A'))
 
 import bipcomposer.icons
