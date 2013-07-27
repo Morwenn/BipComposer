@@ -77,6 +77,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             new_n = 0
             for i in range(self.tabs.count()):
                 text = self.tabs.tabText(i)
+                text = text.rstrip('*') # Also count modified scores
                 if text.startswith("new "):
                     n = text.split()[-1]
                     try:
