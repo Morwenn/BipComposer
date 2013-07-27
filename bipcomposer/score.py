@@ -45,7 +45,8 @@ class Score(QObject):
 
     # Corresponding signals
     pathChanged = Signal(str)
-    nameChanged = Signal(str)    
+    nameChanged = Signal(str)
+    changed = Signal(bool)
 
     length = 64
     tempo = 120
@@ -54,6 +55,7 @@ class Score(QObject):
         super().__init__(*args, **kwargs)
         self.canvas = CanvasScore(self)
         self.notes = []
+        self.modified = False
 
     def addNote(self, note):
         """
@@ -63,6 +65,7 @@ class Score(QObject):
         :type note: bipcomposer.note.Note
         """
         self.notes.append(note)
+        self.modified = True
 
     def removeNote(self, note):
         """
@@ -72,6 +75,7 @@ class Score(QObject):
         :type note: bipcomposer.note.Note
         """
         self.notes.remove(note)
+        self.modified = True
 
     def load(self, fname=None):
         """
@@ -157,3 +161,11 @@ class Score(QObject):
     def name(self, value):
         self._name = value
         self.nameChanged.emit(value)
+
+    @property
+    def modified(self):
+        return self._modified
+    @modified.setter
+    def modified(self, value):
+        self._modified = value
+        self.changed.emit(value)
