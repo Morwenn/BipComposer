@@ -47,6 +47,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.actionSelectAll.triggered.connect(self.selectAll)
 
         self.tabs.tabCloseRequested.connect(self.closeScore)
+        self.tabs.currentChanged.connect(lambda index:
+            self.actionSave.setEnabled(self.score.modified))
 
         # Add a default empty score
         self.newScore()
@@ -92,8 +94,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             # Go to the new tab
             self.tabs.setCurrentIndex(index)
 
+        # Bind score signals to window slots
         score.nameChanged.connect(lambda text:
             self.tabs.setTabText(self.tabs.indexOf(score.canvas), name))
+        score.changed.connect(lambda modified:
+            self.actionSave.setEnabled(modified))
 
         # Set the score properties
         score.name = name
@@ -146,6 +151,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             else:
                 new_path = self.saveScoreAs()
                 self.score.path = new_path
+
+        # Score no more modified since the last save
+        self.score.modified = False
 
     def saveScoreAs(self):
         """
