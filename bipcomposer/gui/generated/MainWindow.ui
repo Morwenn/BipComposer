@@ -119,9 +119,6 @@
    <property name="text">
     <string>&amp;New</string>
    </property>
-   <property name="shortcut">
-    <string notr="true">Ctrl+N</string>
-   </property>
   </action>
   <action name="actionOpen">
    <property name="icon">
@@ -131,9 +128,6 @@
    <property name="text">
     <string>&amp;Open...</string>
    </property>
-   <property name="shortcut">
-    <string notr="true">Ctrl+O</string>
-   </property>
   </action>
   <action name="actionSave">
    <property name="icon">
@@ -142,9 +136,6 @@
    </property>
    <property name="text">
     <string>&amp;Save</string>
-   </property>
-   <property name="shortcut">
-    <string notr="true">Ctrl+S</string>
    </property>
   </action>
   <action name="actionSaveAs">
@@ -167,9 +158,6 @@
    <property name="text">
     <string>&amp;Undo</string>
    </property>
-   <property name="shortcut">
-    <string notr="true">Ctrl+Z</string>
-   </property>
   </action>
   <action name="actionRedo">
    <property name="icon">
@@ -180,47 +168,32 @@
     <string>&amp;Redo</string>
    </property>
    <property name="shortcut">
-    <string notr="true">Ctrl+Shift+Z, Ctrl+Y</string>
+    <string>Ctrl+Shift+Z, Ctrl+Y</string>
    </property>
   </action>
   <action name="actionCut">
    <property name="text">
     <string>&amp;Cut</string>
    </property>
-   <property name="shortcut">
-    <string notr="true">Ctrl+X</string>
-   </property>
   </action>
   <action name="actionCopy">
    <property name="text">
     <string>C&amp;opy</string>
-   </property>
-   <property name="shortcut">
-    <string notr="true">Ctrl+C</string>
    </property>
   </action>
   <action name="actionPaste">
    <property name="text">
     <string>&amp;Paste</string>
    </property>
-   <property name="shortcut">
-    <string notr="true">Ctrl+V</string>
-   </property>
   </action>
   <action name="actionDelete">
    <property name="text">
     <string>&amp;Delete</string>
    </property>
-   <property name="shortcut">
-    <string notr="true">Del</string>
-   </property>
   </action>
   <action name="actionSelectAll">
    <property name="text">
     <string>&amp;Select all</string>
-   </property>
-   <property name="shortcut">
-    <string notr="true">Ctrl+A</string>
    </property>
   </action>
  </widget>

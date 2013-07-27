@@ -24,6 +24,7 @@ import os.path
 
 from PySide.QtGui import (
     QFileDialog,
+    QKeySequence,
     QMainWindow
 )
 
@@ -54,6 +55,23 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def setupUi(self, target):
         super().setupUi(self)
+
+        # Set portable shortcuts
+        self.actionNew.setShortcut(QKeySequence.New)
+        self.actionOpen.setShortcut(QKeySequence.Open)
+        self.actionSave.setShortcut(QKeySequence.Save)
+        # SaveAs: Ctrl+Shift+S
+
+        self.actionUndo.setShortcut(QKeySequence.Undo)
+        if os.name != "nt":
+            # Default is only Ctrl+Y on Windows
+            # While we also want Ctrl+Shift+Z
+            self.actionRedo.setShortcut(QKeySequence.Redo)
+        self.actionCut.setShortcut(QKeySequence.Cut)
+        self.actionCopy.setShortcut(QKeySequence.Copy)
+        self.actionPaste.setShortcut(QKeySequence.Paste)
+        self.actionDelete.setShortcut(QKeySequence.Delete)
+        self.actionSelectAll.setShortcut(QKeySequence.SelectAll)
 
         self.setCentralWidget(self.tabs)
 
