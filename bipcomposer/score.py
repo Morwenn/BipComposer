@@ -21,6 +21,7 @@
 # 02110-1301 USA
 
 import ast
+import os.path
 import xml.etree.ElementTree as ET
 
 from PySide.QtCore import (
@@ -110,6 +111,26 @@ class Score(QObject):
         with open(fname, 'w') as f:
             f.write(ET.tostring(root, encoding="unicode"))
 
+    def updateName(self):
+        """
+        Creates a new name from the score's path.
+        Add '*' at the end if the score has been
+        modified.
+        """
+        name = self.name
+        if self.path:
+            name, ext = os.path.splitext(self.path)
+            name = os.path.basename(name)
+
+        # Handles the modified property
+        if self.modified:
+            if not name.endswith('*'):
+                name += '*'
+        else:
+            if name.endswith('*'):
+                name = name[:-1]
+        self.name = name
+
     def xml(self):
         """
         Creates an xml element an returns it.
@@ -152,6 +173,7 @@ class Score(QObject):
     @path.setter
     def path(self, value):
         self._path = value
+        self.updateName()
         self.pathChanged.emit(value)
 
     @property
@@ -168,4 +190,5 @@ class Score(QObject):
     @modified.setter
     def modified(self, value):
         self._modified = value
+        self.updateName()
         self.changed.emit(value)
