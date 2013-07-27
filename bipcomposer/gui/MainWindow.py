@@ -96,7 +96,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         # Bind score signals to window slots
         score.nameChanged.connect(lambda text:
-            self.tabs.setTabText(self.tabs.indexOf(score.canvas), name))
+            self.tabs.setTabText(self.tabs.currentIndex(), self.score.name))
         score.changed.connect(lambda modified:
             self.actionSave.setEnabled(modified))
 
