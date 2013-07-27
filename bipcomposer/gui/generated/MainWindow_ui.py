@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'bipcomposer\gui\generated\MainWindow.ui'
 #
-# Created: Sat Jul 27 20:15:53 2013
+# Created: Sat Jul 27 20:31:32 2013
 #      by: pyside-uic 0.2.14 running on PySide 1.1.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -79,7 +79,7 @@ class Ui_MainWindow(object):
         icon6 = QtGui.QIcon()
         icon6.addPixmap(QtGui.QPixmap(":/icons/redo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionRedo.setIcon(icon6)
-        self.actionRedo.setShortcut("Ctrl+Shift+Z")
+        self.actionRedo.setShortcut("Ctrl+Shift+Z, Ctrl+Y")
         self.actionRedo.setObjectName("actionRedo")
         self.actionCut = QtGui.QAction(MainWindow)
         self.actionCut.setShortcut("Ctrl+X")
