@@ -189,6 +189,42 @@ def make_icons(icons_dir=None):
     subprocess.call(args)
 
 
+def make_textures(textures_dir=None):
+    """
+    Create a __init__.py file for the given textures
+    directory which will convert the textures file
+    names to SFML texture names and load the files.
+    """
+    # Root directory for the textures
+    if not textures_dir:
+        textures_dir = os.path.join('.', 'bipcomposer', 'textures')
+
+    for root, dirs, files in os.walk(textures_dir):
+        for directory in dirs:
+            if not directory.startswith('_'):
+
+                # Generate the __init__.py file
+                init_file = os.path.join(root, directory, '__init__.py')
+                with open(init_file, 'w') as f:
+                    # Write the shebang and the encoding note
+                    f.write("#!/usr/bin/env python\n"
+                            "# -*- coding: utf-8 -*-\n"
+                            "\n")
+                    # Import directives
+                    f.write("import os.path\n"
+                            "import sfml\n"
+                            "\n")
+
+                    for fname in os.listdir(os.path.join(root, directory)):
+                        name, ext = os.path.splitext(fname)
+                        # To get usable Python names
+                        name = name.replace('-', '_')
+                        if ext in ('.png', '.gif'):
+                            f.write("%s = sfml.Texture.from_file("
+                                    "os.path.join('bipcomposer', 'textures', '%s', '%s'))\n"
+                                    % (name, directory, fname))
+
+
 def make_doc(target):
     """
     Forward the documentation creation to the Sphinx
@@ -293,6 +329,8 @@ if __name__ == '__main__':
                                       description='Compile the .po to .mo binary files')
     parser_icons = subparsers.add_parser('icons', help='Compile the icon files',
                                          description='Compile the icon files')
+    parser_textures = subparsers.add_parser('textures', help='Create the __init__ file for the textures',
+                                            description='Create the __init__ file for the textures')
     parser_doc = subparsers.add_parser('doc', help='Generate the developer documentation',
                                        description='Generate the developer documentation')
     parser_exe = subparsers.add_parser('exe', help='Generate the executable',
@@ -328,6 +366,11 @@ if __name__ == '__main__':
     parser_icons.add_argument('-d', '--icons-dir',
                                help='specify the icons directory')
     parser_icons.set_defaults(func=make_icons)
+
+    # Configure the textures compilation
+    parser_textures.add_argument('-d', '--textures-dir',
+                                 help='specify the textures directory')
+    parser_textures.set_defaults(func=make_textures)
 
     # Configure the documentation parsing
     parser_doc.add_argument('target',

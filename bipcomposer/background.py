@@ -20,9 +20,9 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 # 02110-1301 USA
 
-import os.path
-
 import sfml as sf
+
+import bipcomposer.textures.background as texture
 
 
 class Background:
@@ -33,12 +33,8 @@ class Background:
     texture = None
 
     @classmethod
-    def load(cls, fname=None, size=None):
-        if not fname:
-            fname = os.path.join('bipcomposer', 'sprites',
-                                 'background', '4_4.png')
-        # Load the texture
-        cls.texture = sf.Texture.from_file(fname)
+    def load(cls):
+        cls.texture = texture.b4_4
         cls.texture.repeated = True
         # Parametrize the sprite
         cls.sprite = sf.Sprite(cls.texture)

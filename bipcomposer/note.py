@@ -20,10 +20,11 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 # 02110-1301 USA
 
-import os
 import xml.etree.ElementTree as ET
 
 import sfml as sf
+
+import bipcomposer.textures.notes as texture
 
 
 class NoteType(dict):
@@ -31,39 +32,20 @@ class NoteType(dict):
     A note type. I determines how a note
     looks like and behaves.
     """
-    _files = {}
-
-    def __init__(self, name, load_textures=True):
+    def __init__(self, name):
         """
-        Searches for all the files whose name
-        corresponds to the the given name, loads
-        them and apply transparency to the MAGENTA
-        pixels of the image.
+        Searches for all the textures whose name
+        corresponds to the the given name.
         Files must be of in the format 'name-length.png'.
 
         :param name: Name of the note type.
         :type name: str
         """
-        dname = os.path.join('bipcomposer', 'sprites', 'notes')
-        for fname in os.listdir(dname):
-            root, ext = os.path.splitext(fname)
-            type, length = root.split('-')
-            if type == name:
+        for elem in dir(texture):
+            if elem.startswith(name):
+                type, length = elem.split('_')
                 length = int(length)
-                tmp = os.path.join(dname, fname)
-                self._files[length] = tmp
-                if load_textures:
-                    self.load_textures()
-
-    def load_textures(self):
-        """
-        Load the textures from the type files.
-        """
-        for key, value in self._files.items():
-            img = sf.Image.from_file(value)
-            img.create_mask_from_color(sf.Color.MAGENTA)
-            tex = sf.Texture.from_image(img)
-            self[key] = tex
+                self[length] = texture.__dict__[elem]
 
 
 types = {}
