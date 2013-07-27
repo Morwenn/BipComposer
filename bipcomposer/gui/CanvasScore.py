@@ -94,7 +94,6 @@ class CanvasScore(QWidget):
         pass
 
     def onUpdate(self):
-        self.clear(sf.Color.BLACK)
         if Background.sprite:
             self.window.draw(Background.sprite)
         try:
