@@ -51,22 +51,12 @@ class CanvasScore(QWidget):
     mouseDoubleClicked = Signal(QEvent)
     mouseMoved = Signal(QEvent)
 
-    def __init__(self, score, parent=None, position=None, size=None,
-                 frameTime=0, *args, **kwargs):
+    def __init__(self, score, parent=None, frameTime=0, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
         self.initialized = False
         self.score = score
 
-        if not position:
-            position = QPoint(0, 0)
-        if not size:
-            size = QSize(800, 600)
-
-        w = size.width()
-        h = size.height()
-
         self.window = sf.HandledWindow()
-        self.window.view.size = (w, h)
         self.__dict__['draw'] = self.window.draw
         self.__dict__['clear'] = self.window.clear
         self.__dict__['view'] = self.window.view
@@ -80,10 +70,6 @@ class CanvasScore(QWidget):
         # set strong focus to enable keyboard events to be received
         self.setFocusPolicy(Qt.StrongFocus)
 
-        # setup the widget geometry
-        self.move(position)
-        self.resize(size)
-
         # setup the timer
         self.timer = QTimer()
         self.timer.setInterval(frameTime)
@@ -94,16 +80,10 @@ class CanvasScore(QWidget):
         pass
 
     def onUpdate(self):
-        if Background.sprite:
+        if self.initialized:
             self.window.draw(Background.sprite)
-        try:
             for note in self.score.notes:
                 self.window.draw(note.sprite)
-        except:
-            # Sometimes, score's __init__ seems to
-            # occur too late. This fix allows it to
-            # be late.
-            pass
 
     def sizeHint(self):
         return self.size()
