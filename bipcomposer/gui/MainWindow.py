@@ -47,8 +47,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.actionSelectAll.triggered.connect(self.selectAll)
 
         self.tabs.tabCloseRequested.connect(self.closeScore)
-        self.tabs.currentChanged.connect(lambda index:
-            self.actionSave.setEnabled(self.score.modified))
+        self.tabs.currentChanged.connect(self.onCurrentChanged)
 
         # Add a default empty score
         self.newScore()
@@ -215,3 +214,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         :rtype: CanvasScore
         """
         return self.tabs.currentWidget().score
+
+    def onCurrentChanged(self, index):
+        """
+        Callback called when signal currentChanged
+        is emitted.
+
+        :param index: Index of the current tab.
+        :type index: int
+        """
+        if self.tabs.count():
+            self.actionSave.setEnabled(self.score.modified)
