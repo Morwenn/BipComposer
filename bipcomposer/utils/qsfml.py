@@ -47,6 +47,7 @@ class QSFMLCanvas(QWidget):
         self.setAttribute(Qt.WA_PaintOnScreen)
         self.setAttribute(Qt.WA_OpaquePaintEvent)
         self.setAttribute(Qt.WA_NoSystemBackground)
+        self.setAttribute(Qt.WA_StaticContents)
 
         # set strong focus to enable keyboard events to be received
         self.setFocusPolicy(Qt.StrongFocus)
