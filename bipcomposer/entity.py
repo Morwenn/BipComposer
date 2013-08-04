@@ -28,12 +28,10 @@ class Entity:
     Entity that can have a sprite and has
     x and y properties associated to this
     sprite.
-    
-    sprite is initialized to None.
-    x and y are initialized to 0.
     """
     sprite = None
     _x, _y = 0, 0
+    to_draw = True
 
     def __init__(self, texture=None):
         """
@@ -45,6 +43,15 @@ class Entity:
         """
         if texture:
             self.sprite = sf.Sprite(texture)
+
+    def draw(self, target):
+        """
+        Draw the entity's sprite to the target.
+        The variable to_draw can be toggled to
+        draw or not the entity.
+        """
+        if self.sprite and to_draw:
+            target.draw(self.sprite)
 
     @property
     def x(self):
