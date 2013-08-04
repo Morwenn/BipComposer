@@ -195,9 +195,34 @@ def make_textures(textures_dir=None):
     directory which will convert the textures file
     names to SFML texture names and load the files.
     """
+
+    def _write_header(f):
+        # Write the shebang and the encoding note
+        f.write("#!/usr/bin/env python\n"
+                "# -*- coding: utf-8 -*-\n"
+                "\n")
+        # Import directives
+        f.write("import os.path\n"
+                "import sfml\n"
+                "\n")
+
     # Root directory for the textures
     if not textures_dir:
         textures_dir = os.path.join('.', 'bipcomposer', 'textures')
+
+    # Generate the __init__.py file for the textures directory
+    init_file = os.path.join(textures_dir, '__init__.py')
+    with open(init_file, 'w') as f:
+        _write_header(f)
+
+        for fname in os.listdir(textures_dir):
+            name, ext = os.path.splitext(fname)
+            # To get usable Python names
+            name = name.replace('-', '_')
+            if ext in ('.png', '.gif'):
+                f.write("%s = sfml.Texture.from_file("
+                        "os.path.join('bipcomposer', 'textures', '%s'))\n"
+                        % (name, fname))
 
     for root, dirs, files in os.walk(textures_dir):
         for directory in dirs:
@@ -206,14 +231,7 @@ def make_textures(textures_dir=None):
                 # Generate the __init__.py file
                 init_file = os.path.join(root, directory, '__init__.py')
                 with open(init_file, 'w') as f:
-                    # Write the shebang and the encoding note
-                    f.write("#!/usr/bin/env python\n"
-                            "# -*- coding: utf-8 -*-\n"
-                            "\n")
-                    # Import directives
-                    f.write("import os.path\n"
-                            "import sfml\n"
-                            "\n")
+                    _write_header(f)
 
                     for fname in os.listdir(os.path.join(root, directory)):
                         name, ext = os.path.splitext(fname)
