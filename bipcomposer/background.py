@@ -38,6 +38,7 @@ class Background:
         cls.texture.repeated = True
         # Parametrize the sprite
         cls.sprite = sf.Sprite(cls.texture)
+        cls.sprite.position = (0, 12)
 
     @classmethod
     def set_size(cls, size):
@@ -47,7 +48,7 @@ class Background:
         """
         if cls.sprite:
             width, height = size[0], size[1]
-            cls.sprite.texture_rectangle = (0, 0, width, height)
+            cls.sprite.texture_rectangle = (0, 0, width, height-24)
 
 
 
