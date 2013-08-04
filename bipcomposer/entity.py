@@ -20,6 +20,9 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 # 02110-1301 USA
 
+import sfml as sf
+
+
 class Entity:
     """
     Entity that can have a sprite and has
@@ -31,6 +34,17 @@ class Entity:
     """
     sprite = None
     _x, _y = 0, 0
+
+    def __init__(self, texture=None):
+        """
+        Create a new Entity from a texture or
+        from nothing.
+
+        :param texture: Optional texture to build the sprite.
+        :type texture: sfml.graphics.Texture
+        """
+        if texture:
+            self.sprite = sf.Sprite(texture)
 
     @property
     def x(self):
