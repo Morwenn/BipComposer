@@ -1,0 +1,51 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+# This file is part of the BipComposer project.
+# Copyright (C) 2013 Morwenn
+# Contact: Morwenn <morwenn29@hotmail.fr>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+# 02110-1301 USA
+
+class Entity:
+    """
+    Entity that can have a sprite and has
+    x and y properties associated to this
+    sprite.
+    
+    sprite is initialized to None.
+    x and y are initialized to 0.
+    """
+    sprite = None
+    _x, _y = 0, 0
+
+    @property
+    def x(self):
+        return self._x
+    @x.setter
+    def x(self, value):
+        self._x = value
+        if self.sprite:
+            self.sprite.position = (value, self._y)
+
+    @property
+    def y(self):
+        return self._y
+    @y.setter
+    def y(self, value):
+        self._y = value
+        if self.sprite:
+            self.sprite.position = (self._x, value)
