@@ -25,6 +25,7 @@ import xml.etree.ElementTree as ET
 import sfml as sf
 
 import bipcomposer.textures.notes as texture
+from bipcomposer.entity import Entity
 
 
 class NoteType(dict):
@@ -58,12 +59,10 @@ for _type in (
     types[_type] = NoteType(_type)
 
 
-class Note:
+class Note(Entity):
     """
     Simple note.
     """
-    sprite = None
-    _x, _y = 0, 0
     _selected = False
 
     def __init__(self, x, y, length, type='basic'):
@@ -72,24 +71,6 @@ class Note:
         self.length = length
         self.type = type
         self.updateSprite()
-
-    @property
-    def x(self):
-        return self._x
-    @x.setter
-    def x(self, value):
-        self._x = value
-        if self.sprite:
-            self.sprite.position = (value, self._y)
-
-    @property
-    def y(self):
-        return self._y
-    @y.setter
-    def y(self, value):
-        self._y = value
-        if self.sprite:
-            self.sprite.position = (self._x, value)
 
     @property
     def selected(self):
