@@ -33,6 +33,7 @@ from PySide.QtCore import (
 from bipcomposer.utils.qsfml import QSFMLCanvas
 from bipcomposer.background import Background
 from bipcomposer.note import Note
+from bipcomposer.reader import Reader
 
 
 class CanvasScore(QSFMLCanvas):
@@ -49,6 +50,7 @@ class CanvasScore(QSFMLCanvas):
     def __init__(self, score, parent=None, frameTime=0, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
         self.score = score
+        self.reader = Reader(self)
 
         # Load the resources
         Background.load()
@@ -60,9 +62,13 @@ class CanvasScore(QSFMLCanvas):
         elements of the canvas.
         """
         if self.initialized:
+            # The order of drawing is important:
+            # the last drawn object will be the
+            # last drawn on the screen
             self.window.draw(Background.sprite)
             for note in self.score.notes:
                 self.window.draw(note.sprite)
+            self.reader.draw()
 
     def mousePressEvent(self, event):
         """
@@ -85,8 +91,9 @@ class CanvasScore(QSFMLCanvas):
                     self.score.addNote(note)
 
         elif event.button() == Qt.RightButton:
-            for note in targets:
-                self.score.removeNote(note)
+            for elem in targets:
+                if isinstance(elem, Note):
+                    self.score.removeNote(elem)
 
         self.mousePressed.emit(event)
 
@@ -104,8 +111,9 @@ class CanvasScore(QSFMLCanvas):
         width, height = event.size().width(), event.size().height()
         view = sf.View(sf.Rectangle((0, 0), (width, height)))
         self.window.view = view
-        # Extend the background box
+        # Extend the sprites
         Background.set_size((width, height))
+        self.reader.set_size((width, height))
 
     def inScore(self, x, y):
         """
@@ -113,9 +121,9 @@ class CanvasScore(QSFMLCanvas):
         the score or not.
         """
         min_x = 0
-        min_y = 0
+        min_y = 12
         max_x = self.window.view.size.x
-        max_y = self.window.view.size.y
+        max_y = self.window.view.size.y - 13
 
         return (min_x <= x <= max_x
             and min_y <= y <= max_y)
@@ -128,10 +136,17 @@ class CanvasScore(QSFMLCanvas):
         :rtype: list(object)
         """
         res = []
+        # Check the notes
         for note in self.score.notes:
             rec = note.sprite.global_bounds
             if rec.contains((x, y)):
                 res.append(note)
+        # Check the reader parts
+        for elem in (self.reader.sprites['bg-up'],
+                     self.reader.sprites['bg-down']):
+            rec = elem.global_bounds
+            if rec.contains((x, y)):
+                res.append(self.reader)
         return res
 
 
