@@ -35,6 +35,27 @@ class EndIndicator(Entity):
         self.sprite = sf.Sprite(tex.end_indicator)
 
 
+class Head:
+    """
+    Reader head. It contains a head at the
+    top of the screen and one at the bottom.
+
+    Changing the x coodinate changes both the
+    reader's top and bottom heads x coordinate.
+    """
+    def __init__(self):
+        self.top = Entity(tex.reader_head_top)
+        self.bottom = Entity(tex.reader_head_bottom)
+
+    @property
+    def x(self):
+        return self.top.x
+    @x.setter
+    def x(self, value):
+        self.top.x = value
+        self.bottom.x = value
+
+
 class Reader:
     """
     Handles the reader head, and all the necessary
@@ -42,12 +63,13 @@ class Reader:
     """
     def __init__(self, score):
         self.score = score
+
+        # Reader elements
+        self.head = Head()
         self.indicator = None
 
         # Load sprites
         self.sprites = {
-            'head-up' : sf.Sprite(tex.reader_head_up),
-            'head-down' : sf.Sprite(tex.reader_head_down),
             'bg-up' : sf.Sprite(tex.reader_background),
             'bg-down' : sf.Sprite(tex.reader_background),
         }
@@ -57,7 +79,7 @@ class Reader:
         self.sprites['bg-down'].texture.repeated = True
 
         # Set the sprite's positions
-        self.sprites['head-down'].position = (0, 1)
+        self.head.top.y = 1
 
     def draw(self):
         """
@@ -67,8 +89,8 @@ class Reader:
         target = self.score.window
         target.draw(self.sprites['bg-up'])
         target.draw(self.sprites['bg-down'])
-        target.draw(self.sprites['head-up'])
-        target.draw(self.sprites['head-down'])
+        target.draw(self.head.top.sprite)
+        target.draw(self.head.bottom.sprite)
         if self.indicator:
             target.draw(self.indicator.sprite)
 
@@ -85,5 +107,4 @@ class Reader:
 
         # Set the sprite's positions
         self.sprites['bg-down'].position = (0, height-12)
-        _x = self.sprites['head-up'].position.x
-        self.sprites['head-up'].position = (_x, height-12)
+        self.head.bottom.y = height - 12
