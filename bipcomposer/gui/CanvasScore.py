@@ -80,8 +80,9 @@ class CanvasScore(QSFMLCanvas):
             else:
                 x = int(x / 12) * 12
                 y = int(y / 12) * 12
-                note = Note(x, y, 1)
-                self.score.addNote(note)
+                if self.inScore(x, y):
+                    note = Note(x, y, 1)
+                    self.score.addNote(note)
 
         elif event.button() == Qt.RightButton:
             for note in targets:
@@ -105,6 +106,19 @@ class CanvasScore(QSFMLCanvas):
         self.window.view = view
         # Extend the background box
         Background.set_size((width, height))
+
+    def inScore(self, x, y):
+        """
+        Returns whether the given position is in
+        the score or not.
+        """
+        min_x = 0
+        min_y = 0
+        max_x = self.window.view.size.x
+        max_y = self.window.view.size.y
+
+        return (min_x <= x <= max_x
+            and min_y <= y <= max_y)
 
     def objectsAt(self, x, y):
         """
