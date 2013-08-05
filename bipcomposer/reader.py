@@ -47,6 +47,25 @@ class Head:
         self.top = Entity(tex.reader_head_top)
         self.bottom = Entity(tex.reader_head_bottom)
 
+        #Line between the top and the bottom
+        self.line = sf.VertexArray(sf.PrimitiveType.LINES, 2)
+        self.line[0].color = sf.Color.RED
+        self.line[1].color = sf.Color.YELLOW
+
+    def draw(self, target):
+        """
+        Draw the heads and the line between them
+        to the target.
+        """
+        # Change the position of the line
+        # FIXME: do this a less ugly way
+        self.line[0].position = (self.top.x+7, 9)
+        self.line[1].position = (self.bottom.x+7, self.bottom.y+3)
+        
+        target.draw(self.top.sprite)
+        target.draw(self.bottom.sprite)
+        target.draw(self.line)
+
     @property
     def x(self):
         return self.top.x
@@ -73,11 +92,9 @@ class Reader:
             'bg-up' : sf.Sprite(tex.reader_background),
             'bg-down' : sf.Sprite(tex.reader_background),
         }
-
         # Repeat background
         self.sprites['bg-up'].texture.repeated = True
         self.sprites['bg-down'].texture.repeated = True
-
         # Set the sprite's positions
         self.head.top.y = 1
 
@@ -89,8 +106,7 @@ class Reader:
         target = self.score.window
         target.draw(self.sprites['bg-up'])
         target.draw(self.sprites['bg-down'])
-        target.draw(self.head.top.sprite)
-        target.draw(self.head.bottom.sprite)
+        self.head.draw(target)
         if self.indicator:
             target.draw(self.indicator.sprite)
 
