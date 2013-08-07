@@ -33,7 +33,7 @@ class QSFMLCanvas(QWidget):
     Canvas class using SFML instead of Qt to
     draw on the screen.
     """
-    def __init__(self, parent=None, frameTime=0, *args, **kwargs):
+    def __init__(self, parent=None, frameTime=30, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
         self.initialized = False
 
