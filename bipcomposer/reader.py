@@ -49,6 +49,7 @@ class Head:
 
         #Line between the top and the bottom
         self.line = sf.VertexArray(sf.PrimitiveType.LINES, 2)
+        self.line[0].position = (7, 9)
         self.line[0].color = sf.Color.RED
         self.line[1].color = sf.Color.YELLOW
 
@@ -57,11 +58,6 @@ class Head:
         Draw the heads and the line between them
         to the target.
         """
-        # Change the position of the line
-        # FIXME: do this a less ugly way
-        self.line[0].position = (self.top.x+7, 9)
-        self.line[1].position = (self.bottom.x+7, self.bottom.y+3)
-        
         target.draw(self.top.sprite)
         target.draw(self.bottom.sprite)
         target.draw(self.line)
@@ -73,6 +69,8 @@ class Head:
     def x(self, value):
         self.top.x = value
         self.bottom.x = value
+        self.line[0].position = (value+7, 9)
+        self.line[1].position = (value+7, self.bottom.y+3)
 
 
 class Reader:
@@ -124,3 +122,4 @@ class Reader:
         # Set the sprite's positions
         self.sprites['bg-down'].position = (0, height-12)
         self.head.bottom.y = height - 12
+        self.head.line[1].position = (self.head.x+7, self.head.bottom.y+3)
