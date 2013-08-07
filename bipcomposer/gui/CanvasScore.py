@@ -84,11 +84,7 @@ class CanvasScore(QSFMLCanvas):
             if targets:
                 pass
             else:
-                x = int(x / 12) * 12
-                y = int(y / 12) * 12
-                if self.inScore(x, y):
-                    note = Note(x, y, 1)
-                    self.score.addNote(note)
+                self.createNote(x, y)
 
         elif event.button() == Qt.RightButton:
             for elem in targets:
@@ -104,6 +100,25 @@ class CanvasScore(QSFMLCanvas):
         self.mouseDoubleClicked.emit(event)
 
     def mouseMoveEvent(self, event):
+        """
+        Does basically the same thing as mousePressEvent,
+        since always clicking is long and boring.
+        """
+        x, y = event.x(), event.y()
+        # Check whether a note is selected
+        targets = self.objectsAt(x, y)
+
+        if event.buttons() & Qt.LeftButton:
+            if targets:
+                pass
+            else:
+                self.createNote(x, y)
+
+        elif event.buttons() & Qt.RightButton:
+            for elem in targets:
+                if isinstance(elem, Note):
+                    self.score.removeNote(elem)
+        
         self.mouseMoved.emit(event)
 
     def resizeEvent(self, event):
@@ -115,10 +130,11 @@ class CanvasScore(QSFMLCanvas):
         Background.set_size((width, height))
         self.reader.set_size((width, height))
 
-    def inScore(self, x, y):
+    def editable(self, x, y):
         """
-        Returns whether the given position is in
-        the score or not.
+        Returns whether the given position editable
+        or not. Which means the reader and keyboard
+        are absent, and the position is in the score.
         """
         min_x = 0
         min_y = 12
@@ -149,5 +165,21 @@ class CanvasScore(QSFMLCanvas):
                 res.append(self.reader)
         return res
 
+    def createNote(self, x, y, length=None, type=None):
+        """
+        Create a note at the given position.
+        If length and type are note specified,
+        the global ones are taken.
+        """
+        # Default values and stuff
+        x = int(x / 12) * 12
+        y = int(y / 12) * 12
+        if not length:
+            length = 1
+        if not type:
+            type = 'basic'
 
+        if self.editable(x, y):
+            note = Note(x, y, length, type)
+            self.score.addNote(note)
 
