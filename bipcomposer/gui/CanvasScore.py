@@ -46,6 +46,8 @@ class CanvasScore(QSFMLCanvas):
     mouseReleased = Signal(QEvent)
     mouseDoubleClicked = Signal(QEvent)
     mouseMoved = Signal(QEvent)
+    resized = Signal(tuple)
+    viewMoved = Signal(sf.Vector2)
 
     def __init__(self, score, parent=None, frameTime=0, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
@@ -65,9 +67,9 @@ class CanvasScore(QSFMLCanvas):
             # The order of drawing is important:
             # the last drawn object will be the
             # last drawn on the screen
-            self.window.draw(Background.sprite)
+            self.draw(Background.sprite)
             for note in self.score.notes:
-                self.window.draw(note.sprite)
+                self.draw(note.sprite)
             self.reader.draw()
 
     def mousePressEvent(self, event):
@@ -77,14 +79,16 @@ class CanvasScore(QSFMLCanvas):
         contextual menu, select note, etc...
         """
         x, y = event.x(), event.y()
+        x, y = self.window.map_pixel_to_coords((x, y), self.view)
+
         # Check whether a note is selected
-        targets = self.objectsAt(x, y)
+        targets = self.objects_at(x, y)
 
         if event.button() == Qt.LeftButton:
             if targets:
                 pass
             else:
-                self.createNote(x, y)
+                self.create_note(x, y)
 
         elif event.button() == Qt.RightButton:
             for elem in targets:
@@ -105,14 +109,16 @@ class CanvasScore(QSFMLCanvas):
         since always clicking is long and boring.
         """
         x, y = event.x(), event.y()
+        x, y = self.window.map_pixel_to_coords((x, y), self.view)
+
         # Check whether a note is selected
-        targets = self.objectsAt(x, y)
+        targets = self.objects_at(x, y)
 
         if event.buttons() & Qt.LeftButton:
             if targets:
                 pass
             else:
-                self.createNote(x, y)
+                self.create_note(x, y)
 
         elif event.buttons() & Qt.RightButton:
             for elem in targets:
@@ -122,13 +128,31 @@ class CanvasScore(QSFMLCanvas):
         self.mouseMoved.emit(event)
 
     def resizeEvent(self, event):
-        # Resize the room so that it fits the view
-        width, height = event.size().width(), event.size().height()
-        view = sf.View(sf.Rectangle((0, 0), (width, height)))
-        self.window.view = view
-        # Extend the sprites
-        Background.set_size((width, height))
-        self.reader.set_size((width, height))
+        """
+        When the window is resized, the room is resized
+        accordingly, and the different backgrounds have
+        to be expanded.
+        """
+        if self.initialized:
+            width, height = event.size().width(), event.size().height()
+            x, y = self.window.map_pixel_to_coords((0, 0), self.view)
+
+            view = sf.View(sf.Rectangle((x, y), (width, height)))
+            self.view = view
+
+            self.resized.emit((width, height))
+
+            # Extend the sprites
+            Background.set_size((width+x, height))
+
+    def move_view(self, x, y):
+        """
+        Move the view. This wrapper emits a viewMoved
+        signal which contains the position of the view.
+        """
+        self.view.move(x, y)
+        x, y = self.window.map_pixel_to_coords((0, 0), self.view)
+        self.viewMoved.emit(sf.Vector2(x, y))
 
     def editable(self, x, y):
         """
@@ -136,15 +160,17 @@ class CanvasScore(QSFMLCanvas):
         or not. Which means the reader and keyboard
         are absent, and the position is in the score.
         """
-        min_x = 0
-        min_y = 12
-        max_x = self.window.view.size.x
-        max_y = self.window.view.size.y - 13
+        _x, _y = self.origin_view
+
+        min_x = _x
+        min_y = _y + 12
+        max_x = _x + self.view.size.x
+        max_y = _y + self.view.size.y - 13
 
         return (min_x <= x <= max_x
             and min_y <= y <= max_y)
 
-    def objectsAt(self, x, y):
+    def objects_at(self, x, y):
         """
         Returns all the objects at a given position.
 
@@ -165,15 +191,16 @@ class CanvasScore(QSFMLCanvas):
                 res.append(self.reader)
         return res
 
-    def createNote(self, x, y, length=None, type=None):
+    def create_note(self, x, y, length=None, type=None):
         """
-        Create a note at the given position.
+        Creates a note at the given position.
         If length and type are note specified,
         the global ones are taken.
         """
         # Default values and stuff
         x = int(x / 12) * 12
         y = int(y / 12) * 12
+
         if not length:
             length = 1
         if not type:
@@ -182,4 +209,28 @@ class CanvasScore(QSFMLCanvas):
         if self.editable(x, y):
             note = Note(x, y, length, type)
             self.score.addNote(note)
+
+    @property
+    def origin_view(self):
+        """
+        Returns the SFML coordinates of the origin of
+        view. Be careful, this may not work if a zoom
+        or a rotation have been applied.
+
+        :return: SFML coordinates of the origin of the view.
+        :rtype: sfml.system.Vector2
+        """
+        return self.window.map_pixel_to_coords((0, 0), self.view)
+
+    @property
+    def rectangle_view(self):
+        """
+        Returns a rectangle corresponding to the view
+        origin and the view size.
+
+        :return: View origin and view size.
+        :rtype: sfml.Rectangle
+        """
+        return sf.Rectangle(self.origin_view, self.view.size)
+
 
