@@ -47,7 +47,7 @@ class Head:
         self.top = Entity(tex.reader_head_top)
         self.bottom = Entity(tex.reader_head_bottom)
 
-        #Line between the top and the bottom
+        # Line between the top and the bottom
         self.line = sf.VertexArray(sf.PrimitiveType.LINES, 2)
         self.line[0].position = (7, 9)
         self.line[0].color = sf.Color.RED
@@ -96,30 +96,50 @@ class Reader:
         # Set the sprite's positions
         self.head.top.y = 1
 
+        # Bind signals and slots
+        self.score.resized.connect(self.resize)
+        self.score.viewMoved.connect(self.follow)
+
     def draw(self):
         """
         Draw the reader heads, the reader line
         and the reader background.
         """
-        target = self.score.window
-        target.draw(self.sprites['bg-up'])
-        target.draw(self.sprites['bg-down'])
-        self.head.draw(target)
+        self.score.draw(self.sprites['bg-up'])
+        self.score.draw(self.sprites['bg-down'])
+        self.head.draw(self.score)
         if self.indicator:
-            target.draw(self.indicator.sprite)
+            self.score.draw(self.indicator.sprite)
 
-    def set_size(self, size):
+    def resize(self, size):
         """
         Make sure the reader's size matches the
-        room's size.
+        given view's size.
+
+        :param size: Size of the new view.
+        :type size: sfml.system.Vector2
         """
-        width, height = size[0], size[1]
+        width, height = size
+        x, y = self.score.view_origin
 
         # Set background rectangle
         self.sprites['bg-up'].texture_rectangle = (0, 0, width, 12)
         self.sprites['bg-down'].texture_rectangle = (0, 0, width, 12)
 
         # Set the sprite's positions
-        self.sprites['bg-down'].position = (0, height-12)
+        self.sprites['bg-down'].position = (x, height-12)
         self.head.bottom.y = height - 12
         self.head.line[1].position = (self.head.x+7, self.head.bottom.y+3)
+
+    def follow(self, position):
+        """
+        Moves the origin of the reader to follow
+        the given position.
+
+        :param position: Position to follow.
+        :type position: sfml.system.Vector2
+        """
+        self.sprites['bg-up'].position = position
+        width, height = self.score.view.size
+        x, y = self.score.view_origin
+        self.sprites['bg-down'].position = (x, y+height-12)
