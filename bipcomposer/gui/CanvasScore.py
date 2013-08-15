@@ -160,7 +160,7 @@ class CanvasScore(QSFMLCanvas):
         or not. Which means the reader and keyboard
         are absent, and the position is in the score.
         """
-        _x, _y = self.origin_view
+        _x, _y = self.view_origin
 
         min_x = _x
         min_y = _y + 12
@@ -211,7 +211,7 @@ class CanvasScore(QSFMLCanvas):
             self.score.addNote(note)
 
     @property
-    def origin_view(self):
+    def view_origin(self):
         """
         Returns the SFML coordinates of the origin of
         view. Be careful, this may not work if a zoom
@@ -223,14 +223,14 @@ class CanvasScore(QSFMLCanvas):
         return self.window.map_pixel_to_coords((0, 0), self.view)
 
     @property
-    def rectangle_view(self):
+    def view_rectangle(self):
         """
         Returns a rectangle corresponding to the view
         origin and the view size.
 
         :return: View origin and view size.
-        :rtype: sfml.Rectangle
+        :rtype: sfml.graphics.Rectangle
         """
-        return sf.Rectangle(self.origin_view, self.view.size)
+        return sf.Rectangle(self.view_origin, self.view.size)
 
 
