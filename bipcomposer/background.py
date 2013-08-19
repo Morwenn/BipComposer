@@ -22,34 +22,57 @@
 
 import sfml as sf
 
-import bipcomposer.textures.background as texture
+import bipcomposer.textures.background as tex
+from bipcomposer.entity import Entity
 
 
-class Background:
+# The background is dependant of
+# the rythmic signature
+textures = {
+    '2/4' : None,
+    '3/4' : None,
+    '4/4' : tex.b4_4,
+    '5/4' : None,
+    '6/4' : None
+}
+
+# All of the background textures
+# can be repeated
+for _tex in textures.values():
+    if _tex:
+        _tex.repeated = True
+
+
+class Background(Entity):
     """
     Background static class.
     """
-    sprite = None
-    texture = None
+    def __init__(self, score, rythm='4/4'):
+        self.score = score
+        self.sprite = sf.Sprite(textures[rythm])
+        self.sprite.position = (0, 12)
 
-    @classmethod
-    def load(cls):
-        cls.texture = texture.b4_4
-        cls.texture.repeated = True
-        # Parametrize the sprite
-        cls.sprite = sf.Sprite(cls.texture)
-        cls.sprite.position = (0, 12)
+        # Bind signals and slots
+        self.score.resized.connect(self.resize)
+        self.score.refreshed.connect(self.refresh)
 
-    @classmethod
-    def set_size(cls, size):
+    def resize(self, size):
         """
         Set the size (width, height) to the room
         background.
+
+        :param size: New size.
+        :type size: sfml.system.Vector2
         """
-        if cls.sprite:
-            width, height = size[0], size[1]
-            cls.sprite.texture_rectangle = (0, 0, width, height-24)
+        if self.sprite:
+            width, height = size
+            self.sprite.texture_rectangle = (0, 0, width, height-24)
 
-
+    def refresh(self):
+        """
+        Resize the background to the size of the
+        current score.
+        """
+        self.resize(self.score.view.size)
 
 

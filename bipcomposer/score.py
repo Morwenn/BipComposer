@@ -45,8 +45,8 @@ class Score(QObject):
     _modified = False   # Whether it the score has been modified
 
     # Corresponding signals
-    pathChanged = Signal(str)
-    nameChanged = Signal(str)
+    path_changed = Signal(str)
+    name_changed = Signal(str)
     changed = Signal(bool)
 
     length = 64
@@ -58,7 +58,7 @@ class Score(QObject):
         self.notes = []
         self.modified = False
 
-    def addNote(self, note):
+    def add_note(self, note):
         """
         Add a new note to the score.
 
@@ -68,7 +68,7 @@ class Score(QObject):
         self.notes.append(note)
         self.modified = True
 
-    def removeNote(self, note):
+    def remove_note(self, note):
         """
         Remove the given note from the score.
 
@@ -111,7 +111,7 @@ class Score(QObject):
         with open(fname, 'w') as f:
             f.write(ET.tostring(root, encoding="unicode"))
 
-    def updateName(self):
+    def update_name(self):
         """
         Creates a new name from the score's path.
         Add '*' at the end if the score has been
@@ -149,7 +149,7 @@ class Score(QObject):
         return score
 
     @staticmethod
-    def fromXml(elem):
+    def from_xml(elem):
         """
         Creates a new score from a corrresponding
         xml element.
@@ -163,7 +163,7 @@ class Score(QObject):
         score.length = ast.literal_eval(length)
         score.tempo = ast.literal_eval(tempo)
         for subelem in elem:
-            note = Note.fromXml(subelem)
+            note = Note.from_xml(subelem)
             score.notes.append(note)
         return score
 
@@ -173,8 +173,8 @@ class Score(QObject):
     @path.setter
     def path(self, value):
         self._path = value
-        self.updateName()
-        self.pathChanged.emit(value)
+        self.update_name()
+        self.path_changed.emit(value)
 
     @property
     def name(self):
@@ -182,7 +182,7 @@ class Score(QObject):
     @name.setter
     def name(self, value):
         self._name = value
-        self.nameChanged.emit(value)
+        self.name_changed.emit(value)
 
     @property
     def modified(self):
@@ -190,5 +190,5 @@ class Score(QObject):
     @modified.setter
     def modified(self, value):
         self._modified = value
-        self.updateName()
+        self.update_name()
         self.changed.emit(value)

@@ -98,7 +98,7 @@ class Reader:
 
         # Bind signals and slots
         self.score.resized.connect(self.resize)
-        self.score.viewMoved.connect(self.follow)
+        self.score.view_moved.connect(self.follow)
 
     def draw(self):
         """

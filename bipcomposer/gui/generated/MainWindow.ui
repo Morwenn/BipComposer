@@ -47,25 +47,25 @@
     <property name="title">
      <string>&amp;File</string>
     </property>
-    <addaction name="actionNew"/>
-    <addaction name="actionOpen"/>
+    <addaction name="action_new"/>
+    <addaction name="action_open"/>
     <addaction name="separator"/>
-    <addaction name="actionSave"/>
-    <addaction name="actionSaveAs"/>
+    <addaction name="action_save"/>
+    <addaction name="action_save_as"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
      <string>&amp;Edit</string>
     </property>
-    <addaction name="actionUndo"/>
-    <addaction name="actionRedo"/>
+    <addaction name="action_undo"/>
+    <addaction name="action_redo"/>
     <addaction name="separator"/>
-    <addaction name="actionCut"/>
-    <addaction name="actionCopy"/>
-    <addaction name="actionPaste"/>
-    <addaction name="actionDelete"/>
+    <addaction name="action_cut"/>
+    <addaction name="action_copy"/>
+    <addaction name="action_paste"/>
+    <addaction name="action_delete"/>
     <addaction name="separator"/>
-    <addaction name="actionSelectAll"/>
+    <addaction name="action_select_all"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -87,10 +87,10 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionNew"/>
-   <addaction name="actionOpen"/>
-   <addaction name="actionSave"/>
-   <addaction name="actionSaveAs"/>
+   <addaction name="action_new"/>
+   <addaction name="action_open"/>
+   <addaction name="action_save"/>
+   <addaction name="action_save_as"/>
   </widget>
   <widget class="QToolBar" name="toolbarEdit">
    <property name="windowTitle">
@@ -108,10 +108,10 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionUndo"/>
-   <addaction name="actionRedo"/>
+   <addaction name="action_undo"/>
+   <addaction name="action_redo"/>
   </widget>
-  <action name="actionNew">
+  <action name="action_new">
    <property name="icon">
     <iconset resource="../../icons.qrc">
      <normaloff>:/icons/new.png</normaloff>:/icons/new.png</iconset>
@@ -120,7 +120,7 @@
     <string>&amp;New</string>
    </property>
   </action>
-  <action name="actionOpen">
+  <action name="action_open">
    <property name="icon">
     <iconset resource="../../icons.qrc">
      <normaloff>:/icons/open.png</normaloff>:/icons/open.png</iconset>
@@ -129,7 +129,7 @@
     <string>&amp;Open...</string>
    </property>
   </action>
-  <action name="actionSave">
+  <action name="action_save">
    <property name="icon">
     <iconset resource="../../icons.qrc">
      <normaloff>:/icons/save.png</normaloff>:/icons/save.png</iconset>
@@ -138,7 +138,7 @@
     <string>&amp;Save</string>
    </property>
   </action>
-  <action name="actionSaveAs">
+  <action name="action_save_as">
    <property name="icon">
     <iconset resource="../../icons.qrc">
      <normaloff>:/icons/save-as.png</normaloff>:/icons/save-as.png</iconset>
@@ -150,7 +150,7 @@
     <string notr="true">Ctrl+Shift+S</string>
    </property>
   </action>
-  <action name="actionUndo">
+  <action name="action_undo">
    <property name="icon">
     <iconset resource="../../icons.qrc">
      <normaloff>:/icons/undo.png</normaloff>:/icons/undo.png</iconset>
@@ -159,7 +159,7 @@
     <string>&amp;Undo</string>
    </property>
   </action>
-  <action name="actionRedo">
+  <action name="action_redo">
    <property name="icon">
     <iconset resource="../../icons.qrc">
      <normaloff>:/icons/redo.png</normaloff>:/icons/redo.png</iconset>
@@ -171,27 +171,27 @@
     <string>Ctrl+Shift+Z, Ctrl+Y</string>
    </property>
   </action>
-  <action name="actionCut">
+  <action name="action_cut">
    <property name="text">
     <string>&amp;Cut</string>
    </property>
   </action>
-  <action name="actionCopy">
+  <action name="action_copy">
    <property name="text">
     <string>C&amp;opy</string>
    </property>
   </action>
-  <action name="actionPaste">
+  <action name="action_paste">
    <property name="text">
     <string>&amp;Paste</string>
    </property>
   </action>
-  <action name="actionDelete">
+  <action name="action_delete">
    <property name="text">
     <string>&amp;Delete</string>
    </property>
   </action>
-  <action name="actionSelectAll">
+  <action name="action_select_all">
    <property name="text">
     <string>&amp;Select all</string>
    </property>

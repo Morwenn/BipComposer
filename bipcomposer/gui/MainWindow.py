@@ -39,43 +39,43 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.setupUi(self)
 
-        self.actionNew.triggered.connect(self.newScore)
-        self.actionOpen.triggered.connect(self.openScore)
-        self.actionSave.triggered.connect(self.saveScore)
-        self.actionSaveAs.triggered.connect(self.saveScoreAs)
+        self.action_new.triggered.connect(self.new_score)
+        self.action_open.triggered.connect(self.open_score)
+        self.action_save.triggered.connect(self.save_score)
+        self.action_save_as.triggered.connect(self.save_score_as)
 
-        self.actionDelete.triggered.connect(self.delete)
-        self.actionSelectAll.triggered.connect(self.selectAll)
+        self.action_delete.triggered.connect(self.delete)
+        self.action_select_all.triggered.connect(self.select_all)
 
-        self.tabs.tabCloseRequested.connect(self.closeScore)
-        self.tabs.currentChanged.connect(self.onCurrentChanged)
+        self.tabs.tabCloseRequested.connect(self.close_score)
+        self.tabs.currentChanged.connect(self.on_current_changed)
 
         # Add a default empty score
-        self.newScore()
+        self.new_score()
 
     def setupUi(self, target):
         super().setupUi(self)
 
         # Set portable shortcuts
-        self.actionNew.setShortcut(QKeySequence.New)
-        self.actionOpen.setShortcut(QKeySequence.Open)
-        self.actionSave.setShortcut(QKeySequence.Save)
+        self.action_new.setShortcut(QKeySequence.New)
+        self.action_open.setShortcut(QKeySequence.Open)
+        self.action_save.setShortcut(QKeySequence.Save)
         # SaveAs: Ctrl+Shift+S
 
-        self.actionUndo.setShortcut(QKeySequence.Undo)
+        self.action_undo.setShortcut(QKeySequence.Undo)
         if os.name != "nt":
             # Default is only Ctrl+Y on Windows
             # While we also want Ctrl+Shift+Z
-            self.actionRedo.setShortcut(QKeySequence.Redo)
-        self.actionCut.setShortcut(QKeySequence.Cut)
-        self.actionCopy.setShortcut(QKeySequence.Copy)
-        self.actionPaste.setShortcut(QKeySequence.Paste)
-        self.actionDelete.setShortcut(QKeySequence.Delete)
-        self.actionSelectAll.setShortcut(QKeySequence.SelectAll)
+            self.action_redo.setShortcut(QKeySequence.Redo)
+        self.action_cut.setShortcut(QKeySequence.Cut)
+        self.action_copy.setShortcut(QKeySequence.Copy)
+        self.action_paste.setShortcut(QKeySequence.Paste)
+        self.action_delete.setShortcut(QKeySequence.Delete)
+        self.action_select_all.setShortcut(QKeySequence.SelectAll)
 
         self.setCentralWidget(self.tabs)
 
-    def newScore(self, name=None, goto=True):
+    def new_score(self, name=None, goto=True):
         """
         Creates a new score with the given name.
         If no name is provided, a research is
@@ -113,17 +113,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.tabs.setCurrentIndex(index)
 
         # Bind score signals to window slots
-        score.nameChanged.connect(lambda text:
+        score.name_changed.connect(lambda text:
             self.tabs.setTabText(self.tabs.currentIndex(), self.score.name))
         score.changed.connect(lambda modified:
-            self.actionSave.setEnabled(modified))
+            self.action_save.setEnabled(modified))
 
         # Set the score properties
         score.name = name
         # Return the newly created score
         return score
 
-    def openScore(self, fname=None, goto=True):
+    def open_score(self, fname=None, goto=True):
         """
         Opens the given score if given, otherwise
         asks for the user to provide a file name
@@ -146,10 +146,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 raise IOError("invalid file extension: %s" % ext)
 
             name = os.path.split(name)[1]
-            score = self.newScore(name, goto=goto)
+            score = self.new_score(name, goto=goto)
             score.load(fname)
 
-    def saveScore(self, fname=None):
+    def save_score(self, fname=None):
         """
         Saves the score to fname if given. Otherwise,
         saves it to the cached location if known, otherwise
@@ -167,13 +167,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             if path:
                 self.score.save(path)
             else:
-                new_path = self.saveScoreAs()
+                new_path = self.save_score_as()
                 self.score.path = new_path
 
         # Score no more modified since the last save
         self.score.modified = False
 
-    def saveScoreAs(self):
+    def save_score_as(self):
         """
         Asks for the user to provide a file name and
         saves the score to this file, creating it if
@@ -192,7 +192,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.score.save(fname)
         return fname
 
-    def closeScore(self, index):
+    def close_score(self, index):
         """
         Close the given score. Create a new score
         if there are no scores left.
@@ -202,7 +202,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         """
         self.tabs.removeTab(index)
         if not self.tabs.count():
-            self.newScore()
+            self.new_score()
 
     def delete(self):
         """
@@ -215,9 +215,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 to_remove.append(note)
         # To phases look-up in order to avoid problems
         for note in to_remove:
-            self.score.removeNote(note)
+            self.score.remove_note(note)
 
-    def selectAll(self):
+    def select_all(self):
         """
         Select all the notes in the current score.
         """
@@ -234,13 +234,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         """
         return self.tabs.currentWidget().score
 
-    def onCurrentChanged(self, index):
+    def on_current_changed(self, index):
         """
-        Callback called when signal currentChanged
+        Callback called when signal current_changed
         is emitted.
 
         :param index: Index of the current tab.
         :type index: int
         """
         if self.tabs.count():
-            self.actionSave.setEnabled(self.score.modified)
+            self.action_save.setEnabled(self.score.modified)
+            self.score.canvas.refresh()

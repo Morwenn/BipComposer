@@ -42,20 +42,19 @@ class CanvasScore(QSFMLCanvas):
     the notes of a score.
     score.
     """
-    mousePressed = Signal(QEvent)
-    mouseReleased = Signal(QEvent)
-    mouseDoubleClicked = Signal(QEvent)
-    mouseMoved = Signal(QEvent)
+    mouse_pressed = Signal(QEvent)
+    mouse_released = Signal(QEvent)
+    mouse_double_clicked = Signal(QEvent)
+    mouse_moved = Signal(QEvent)
     resized = Signal(tuple)
-    viewMoved = Signal(sf.Vector2)
+    refreshed = Signal()
+    view_moved = Signal(sf.Vector2)
 
     def __init__(self, score, parent=None, frameTime=0, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
         self.score = score
         self.reader = Reader(self)
-
-        # Load the resources
-        Background.load()
+        self.background = Background(self)
 
     def onUpdate(self):
         """
@@ -67,7 +66,7 @@ class CanvasScore(QSFMLCanvas):
             # The order of drawing is important:
             # the last drawn object will be the
             # last drawn on the screen
-            self.draw(Background.sprite)
+            self.draw(self.background.sprite)
             for note in self.score.notes:
                 self.draw(note.sprite)
             self.reader.draw()
@@ -93,15 +92,15 @@ class CanvasScore(QSFMLCanvas):
         elif event.button() == Qt.RightButton:
             for elem in targets:
                 if isinstance(elem, Note):
-                    self.score.removeNote(elem)
+                    self.score.remove_note(elem)
 
-        self.mousePressed.emit(event)
+        self.mouse_pressed.emit(event)
 
     def mouseReleaseEvent(self, event):
-        self.mouseReleased.emit(event)
+        self.mouse_released.emit(event)
 
     def mouseDoubleClickEvent(self, event):
-        self.mouseDoubleClicked.emit(event)
+        self.mouse_double_clicked.emit(event)
 
     def mouseMoveEvent(self, event):
         """
@@ -123,9 +122,9 @@ class CanvasScore(QSFMLCanvas):
         elif event.buttons() & Qt.RightButton:
             for elem in targets:
                 if isinstance(elem, Note):
-                    self.score.removeNote(elem)
+                    self.score.remove_note(elem)
         
-        self.mouseMoved.emit(event)
+        self.mouse_moved.emit(event)
 
     def resizeEvent(self, event):
         """
@@ -142,17 +141,21 @@ class CanvasScore(QSFMLCanvas):
 
             self.resized.emit((width, height))
 
-            # Extend the sprites
-            Background.set_size((width+x, height))
+    def refresh(self):
+        """
+        Emits a signal that the underlying widgets
+        will get to refresh themselves.
+        """
+        self.refreshed.emit()
 
     def move_view(self, x, y):
         """
-        Move the view. This wrapper emits a viewMoved
+        Move the view. This wrapper emits a view_moved
         signal which contains the position of the view.
         """
         self.view.move(x, y)
         x, y = self.window.map_pixel_to_coords((0, 0), self.view)
-        self.viewMoved.emit(sf.Vector2(x, y))
+        self.view_moved.emit(sf.Vector2(x, y))
 
     def editable(self, x, y):
         """
@@ -208,7 +211,7 @@ class CanvasScore(QSFMLCanvas):
 
         if self.editable(x, y):
             note = Note(x, y, length, type)
-            self.score.addNote(note)
+            self.score.add_note(note)
 
     @property
     def view_origin(self):
