@@ -139,7 +139,7 @@ class CanvasScore(QSFMLCanvas):
             view = sf.View(sf.Rectangle((x, y), (width, height)))
             self.view = view
 
-            self.resized.emit((width, height))
+            self.resized.emit(sf.Vector2(width, height))
 
     def refresh(self):
         """
