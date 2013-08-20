@@ -146,7 +146,8 @@ class CanvasScore(QSFMLCanvas):
         Emits a signal that the underlying widgets
         will get to refresh themselves.
         """
-        self.refreshed.emit()
+        if self.initialized:
+            self.refreshed.emit()
 
     def move_view(self, x, y):
         """
@@ -154,8 +155,7 @@ class CanvasScore(QSFMLCanvas):
         signal which contains the position of the view.
         """
         self.view.move(x, y)
-        x, y = self.window.map_pixel_to_coords((0, 0), self.view)
-        self.view_moved.emit(sf.Vector2(x, y))
+        self.view_moved.emit(self.view_origin)
 
     def editable(self, x, y):
         """

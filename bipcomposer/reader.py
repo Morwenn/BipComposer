@@ -98,6 +98,7 @@ class Reader:
 
         # Bind signals and slots
         self.score.resized.connect(self.resize)
+        self.score.refreshed.connect(self.refresh)
         self.score.view_moved.connect(self.follow)
 
     def draw(self):
@@ -131,6 +132,14 @@ class Reader:
         self.head.bottom.y = height - 12
         self.head.line[1].position = (self.head.x+7, self.head.bottom.y+3)
 
+    def refresh(self):
+        """
+        Resize the reader and position it on the
+        screen.
+        """
+        self.resize(self.score.view.size)
+        self.follow(self.score.view_origin)
+
     def follow(self, position):
         """
         Moves the origin of the reader to follow
@@ -139,7 +148,8 @@ class Reader:
         :param position: Position to follow.
         :type position: sfml.system.Vector2
         """
-        self.sprites['bg-up'].position = position
+        x, y = position
         width, height = self.score.view.size
-        x, y = self.score.view_origin
+
+        self.sprites['bg-up'].position = position
         self.sprites['bg-down'].position = (x, y+height-12)
