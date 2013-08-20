@@ -53,8 +53,9 @@ class Background(Entity):
         self.sprite.position = (0, 12)
 
         # Bind signals and slots
-        self.score.resized.connect(self.resize)
+        self.score.resized.connect(self.refresh)
         self.score.refreshed.connect(self.refresh)
+        self.score.view_moved.connect(self.refresh)
 
     def resize(self, size):
         """
@@ -70,9 +71,21 @@ class Background(Entity):
 
     def refresh(self):
         """
-        Resize the background to the size of the
-        current score.
+        If the background is smaller than what is
+        needed for the view, resize the background.
+        Note that it will only keep growing and never
+        become smaller again.
         """
-        self.resize(self.score.view.size)
+        width, height = self.score.view.size
+        x, y = self.score.view_origin
+        rec = self.sprite.texture_rectangle
+
+        if (rec.left + rec.width < width + x or
+            rec.top + rec.height < height + y):
+            # We add 200 to width and height so that
+            # the operation is not done every frame
+            # during the first time the score is
+            # played.
+            self.resize((width+x+200, height+y+200))
 
 
