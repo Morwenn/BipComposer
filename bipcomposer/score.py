@@ -97,7 +97,7 @@ class Score(QObject):
             self.length = ast.literal_eval(length)
             self.tempo = ast.literal_eval(tempo)
             for elem in root:
-                note = Note.fromXml(elem)
+                note = Note.from_xml(elem)
                 self.notes.append(note)
 
     def save(self, fname=None):

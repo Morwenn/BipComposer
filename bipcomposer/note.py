@@ -70,7 +70,7 @@ class Note(Entity):
         self.y = y
         self.length = length
         self.type = type
-        self.updateSprite()
+        self.update_sprite()
 
     @property
     def selected(self):
@@ -83,7 +83,7 @@ class Note(Entity):
         else:
             self.sprite.color = sf.Color.GREEN
 
-    def updateSprite(self):
+    def update_sprite(self):
         """
         Update the sprite with the length, type and
         position information.
@@ -115,9 +115,9 @@ class Note(Entity):
         return ET.Element('note', attrib=attrib)
 
     @staticmethod
-    def fromXml(elem):
+    def from_xml(elem):
         """
-        Creates a new note from a corrresponding
+        Creates a new note from a corresponding
         xml element.
 
         :param elem: xml element discribing the note.
